@@ -24,7 +24,7 @@ Route::get('/email/verify/{id}/{hash}', VerifyEmailController::class)->name('ver
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('logout', [AuthController::class, 'destroy']);
 
-    Route::get('genders',GenderController::class);
+    Route::get('genders', GenderController::class);
     Route::get('countries', CountryController::class);
     Route::get('transaction-statuses', [TransactionStatusController::class, 'index']);
     Route::get('transaction-types', [TransactionTypeController::class, 'index']);
@@ -35,8 +35,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('transactions/create', CreateTransactionController::class);
 
     Route::group(['middleware' => 'admin'], function () {
-        Route::resource('banks', BankController::class)->except(['index']);
-        Route::resource('companies', CompanyController::class)->except(['index']);
+        Route::resource('banks', BankController::class)->only(['store', 'update', 'destroy']);
+        Route::resource('companies', CompanyController::class)->only(['store', 'update', 'destroy']);
         Route::resource('user/{id}/transactions', UserTransactionController::class)->only(['index', 'store']);
     });
 });
