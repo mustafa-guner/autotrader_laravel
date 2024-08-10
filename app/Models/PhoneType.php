@@ -7,10 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property mixed $id
- * @property mixed $company_id
+ * @property mixed $definition
+ * @property mixed $created_at
+ * @property mixed $updated_at
  */
-
-class Share extends Model
+class PhoneType extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'definition'
+    ];
 }

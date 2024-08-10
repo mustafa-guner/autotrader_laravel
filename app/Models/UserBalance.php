@@ -8,29 +8,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
- * @property int $bank_id
  * @property int $user_id
- * @property string $account_number
- * @property string $currency
+ * @property string $balance
+ * @property mixed $created_at
+ * @property mixed $updated_at
  */
-class BankAccount extends Model
+class UserBalance extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'bank_id',
         'user_id',
-        'account_number',
-        'currency',
+        'balance',
+        'currency'
     ];
-
-    public function bank(): BelongsTo
-    {
-        return $this->belongsTo(Bank::class, 'bank_id');
-    }
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
 }

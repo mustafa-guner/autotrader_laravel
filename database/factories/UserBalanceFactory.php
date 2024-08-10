@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\TransactionType;
+use App\Models\UserBalance;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<TransactionType>
+ * @extends Factory<UserBalance>
  */
-class TransactionTypeFactory extends Factory
+class UserBalanceFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +18,9 @@ class TransactionTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            'definition' => $this->faker->word,
+            'user_id' => UserFactory::make(),
+            'balance' => $this->faker->randomFloat(2, 0, 1000),
+            'currency' => $this->faker->currencyCode,
         ];
     }
 }

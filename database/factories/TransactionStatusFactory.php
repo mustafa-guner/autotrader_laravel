@@ -18,7 +18,7 @@ class TransactionStatusFactory extends Factory
     public function definition(): array
     {
         return [
-            'definition' => ['en' => $this->faker->name, 'ar' => $this->faker->name],
+            'definition' => $this->faker->word,
         ];
     }
 }

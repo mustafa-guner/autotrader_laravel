@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\NotFoundException;
-use App\Http\Requests\SaveBankRequest;
 use App\Http\Requests\SaveCompanyRequest;
 use App\Http\Resources\BankResource;
-use App\Models\Bank;
 use App\Models\Company;
 use App\Services\ResponseService;
 use Exception;

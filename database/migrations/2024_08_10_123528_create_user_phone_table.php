@@ -10,12 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('notifications', function (Blueprint $table) {
+        Schema::create('user_phones', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('content');
-            $table->string('thumbnail')->nullable();
-            $table->enum('type', ['info', 'warning', 'error', 'success'])->default('info');
+            $table->unsignedBigInteger('user_id');
+            $table->boolean('is_verified');
+            $table->string('verification_code')->nullable();
+            $table->unsignedBigInteger('phone_type_id')->unique();
+            $table->string('phone_number');
+            $table->timestamp('verified_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -26,6 +28,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('user_phones');
     }
 };

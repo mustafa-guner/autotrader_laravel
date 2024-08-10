@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Country>
+ * @extends Factory<Country>
  */
 class CountryFactory extends Factory
 {
@@ -17,7 +18,10 @@ class CountryFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->country,
+            'iso_code' => $this->faker->countryCode,
+            'calling_code' => $this->faker->randomNumber(2),
+            'flag' => $this->faker->imageUrl(640, 480, 'flag'),
         ];
     }
 }

@@ -18,12 +18,21 @@ class BankFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => ['en' => $this->faker->name, 'ar' => $this->faker->name],
-            'description' => ['en' => $this->faker->sentence, 'ar' => $this->faker->sentence],
+            'name' => $this->faker->company . ' Bank',
+            'description' => $this->faker->sentence,
             'logo' => $this->faker->imageUrl(),
-            'code' => $this->faker->word,
+            'swift_code' => $this->faker->word,
             'is_active' => $this->faker->boolean,
             'website' => $this->faker->url,
         ];
+    }
+
+    public function deactivated(): static
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'is_active' => false,
+            ];
+        });
     }
 }

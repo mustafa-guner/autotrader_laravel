@@ -18,6 +18,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property mixed lastname
  * @property mixed username
  * @property mixed email
+ * @property mixed $profile_image
  * @property mixed password
  * @property mixed country_id
  * @property mixed $gender_id
@@ -31,12 +32,14 @@ use Spatie\Permission\Traits\HasRoles;
  * @property mixed $deleted_by
  * @property mixed $deleted_at
  *
- * @property mixed $country
- * @property mixed $gender
+ * @property Country $country
+ * @property Gender $gender
  * @property Transaction[] $transactions
- * @property mixed $createdBy
- * @property mixed $updatedBy
- * @property mixed $deletedBy
+ * @property NotificationUser[] $notifications
+ * @property UserPhone[] $phones
+ * @property User $createdBy
+ * @property User $updatedBy
+ * @property User $deletedBy
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -55,6 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'username',
         'email',
         'password',
+        'profile_image',
         'country_id',
         'gender_id',
         'is_active',
@@ -108,6 +112,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class, 'transaction_by');
+    }
+
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(NotificationUser::class, 'user_id');
+    }
+
+    public function phones(): HasMany
+    {
+        return $this->hasMany(UserPhone::class, 'user_id');
     }
 
     public function createdBy(): BelongsTo

@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'countries_api_v3' => [
+        'url' => env('COUNTRIES_API_V3_URL'),
+    ]
+
 ];

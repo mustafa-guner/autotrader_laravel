@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('notification_users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('notification_id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedBigInteger('notification_id');
+            $table->unsignedBigInteger('user_id');
+            $table->boolean('is_read')->default(false);
+            $table->softDeletes();
             $table->timestamps();
 
             //Relations

@@ -13,16 +13,16 @@ return new class extends Migration {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->text('description');
-            $table->unsignedInteger('transaction_type_id');
-            $table->string('transaction_status_id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedBigInteger('transaction_type_id');
+            $table->unsignedBigInteger('transaction_status_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('amount');
             $table->string('currency');
-            $table->unsignedInteger('transaction_by')->nullable();
+            $table->unsignedBigInteger('transaction_by')->nullable();
             $table->softDeletes();
             $table->timestamps();
 
-            //Relations
+            // Relations
             $table->foreign('transaction_by')->references('id')->on('users');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('transaction_type_id')->references('id')->on('transaction_types');
