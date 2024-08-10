@@ -14,5 +14,8 @@ use Illuminate\Database\Eloquent\Model;
 class TransactionStatus extends Model
 {
     use HasFactory;
+
+    protected $table = 'transaction_statuses';
+
     protected $fillable = ['definition'];
 }

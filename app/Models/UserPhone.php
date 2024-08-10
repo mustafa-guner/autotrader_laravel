@@ -22,6 +22,8 @@ class UserPhone extends Model
 {
     use HasFactory;
 
+    protected $table = 'user_phone';
+
     protected $fillable = [
         'user_id',
         'phone_type_id',

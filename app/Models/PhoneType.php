@@ -14,6 +14,9 @@ use Illuminate\Database\Eloquent\Model;
 class PhoneType extends Model
 {
     use HasFactory;
+
+    protected $table = 'phone_types';
+
     protected $fillable = [
         'definition'
     ];
