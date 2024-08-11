@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Me;
 
 use App\Exceptions\NotFoundException;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\SaveMyPhoneRequest;
 use App\Http\Resources\PhoneResource;
 use App\Models\UserPhone;

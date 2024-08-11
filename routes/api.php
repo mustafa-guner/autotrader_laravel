@@ -1,17 +1,19 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\GenderController;
-use App\Http\Controllers\MyPhoneController;
-use App\Http\Controllers\MyTransactionController;
-use App\Http\Controllers\MyNotificationController;
+use App\Http\Controllers\Me\CreateTransactionController;
+use App\Http\Controllers\Me\MyNotificationController;
+use App\Http\Controllers\Me\MyPhoneController;
+use App\Http\Controllers\Me\MyTransactionController;
 use App\Http\Controllers\PhoneTypeController;
-use App\Http\Controllers\RegistrationController;
-use App\Http\Controllers\CreateTransactionController;
 use App\Http\Controllers\TransactionStatusController;
 use App\Http\Controllers\TransactionTypeController;
 use App\Http\Controllers\UserTransactionController;
@@ -24,6 +26,8 @@ use Symfony\Component\HttpFoundation\Response;
 Route::group(['prefix' => 'auth'], function () {
     Route::post('register', RegistrationController::class);
     Route::post('login', [AuthController::class, 'store']);
+    Route::post('forgot-password', ForgotPasswordController::class);
+    Route::post('reset-password', ResetPasswordController::class);
 });
 
 Route::get('email/verify/{id}/{hash}', VerifyEmailController::class)->name('verification.verify');
@@ -49,7 +53,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('notifications', MyNotificationController::class);
     });
 
-    Route::group(['middleware' => 'admin'], function () {
+    Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
         Route::resource('banks', BankController::class)->only(['store', 'update', 'destroy']);
         Route::resource('companies', CompanyController::class)->only(['store', 'update', 'destroy']);
         Route::resource('announcements', AnnouncementController::class)->only(['store', 'update', 'destroy']);

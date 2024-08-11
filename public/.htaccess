@@ -5,6 +5,9 @@
 
     RewriteEngine On
 
+    # Redirect / to /docs/api (for scramble endpoints)
+    RewriteRule ^$ /docs/api [R,L]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

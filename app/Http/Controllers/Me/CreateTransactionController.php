@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Me;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\SaveTransactionRequest;
 use App\Models\Transaction;
 use App\Services\ResponseService;

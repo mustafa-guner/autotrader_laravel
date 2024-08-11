@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Me;
 
 use App\Exceptions\NotFoundException;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\TransactionResource;
 use App\Services\ResponseService;
 use Exception;
