@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Models\User;
 use App\Services\ResponseService;
 use Exception;
@@ -15,11 +16,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ResetPasswordController extends Controller
 {
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(ResetPasswordRequest $request): JsonResponse
     {
         try {
-            $token = $request->get('token');
-            $email = $request->get('email');
+            $validated_fields = $request->validated();
+            $token = $validated_fields['token'];
             $password = $request->get('password');
 
             $user = User::where('email', $email)->first();
