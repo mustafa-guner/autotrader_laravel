@@ -16,7 +16,6 @@ use Spatie\Permission\Traits\HasRoles;
  * @property mixed id
  * @property mixed firstname
  * @property mixed lastname
- * @property mixed username
  * @property mixed email
  * @property mixed $profile_image
  * @property mixed password
@@ -57,7 +56,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'firstname',
         'lastname',
-        'username',
         'email',
         'password',
         'profile_image',
