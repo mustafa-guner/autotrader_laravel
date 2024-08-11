@@ -14,6 +14,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class PasswordResetToken extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'email';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $table = 'password_reset_tokens';
 

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Jobs\ForgotPasswordJob;
 use App\Models\PasswordResetToken;
@@ -13,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class ForgotPasswordController extends Controller
 {
@@ -21,17 +21,20 @@ class ForgotPasswordController extends Controller
         try {
             $email = $request->get('email');
             $user = User::where('email', $email)->first();
+
             if (!$user) {
-                throw new NotFoundException('User not found');
+                return ResponseService::fail(__('auth.user_not_found_with_email'), Response::HTTP_NOT_FOUND);
             }
+
             $token = rand(100000, 999999);
 
             DB::beginTransaction();
-            $password_reset_token = PasswordResetToken::create([
-                'email' => $user->email,
-                'token' => $token,
-                'created_at' => now()
-            ]);
+            $password_reset_token = PasswordResetToken::updateOrCreate(
+                ['email' => $user->email],
+                [
+                    'token' => $token,
+                    'created_at' => now()
+                ]);
             DB::commit();
             dispatch(new ForgotPasswordJob($password_reset_token));
             Log::info('Password reset mail sent to: ' . $user->email);
@@ -39,7 +42,7 @@ class ForgotPasswordController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             Log::error('Password reset link/token has not been send. Error: ' . $e->getMessage());
-            return ResponseService::fail(__('validation.error.default'));
+            return ResponseService::fail(__('commons.fail'));
         }
     }
 }
