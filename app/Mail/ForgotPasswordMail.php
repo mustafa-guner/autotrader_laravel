@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\PasswordResetToken;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -11,12 +12,12 @@ use Illuminate\Queue\SerializesModels;
 class ForgotPasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
-    protected string $password_reset_token;
+    protected PasswordResetToken $password_reset_token;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(string $password_reset_token)
+    public function __construct(PasswordResetToken $password_reset_token)
     {
         $this->password_reset_token = $password_reset_token;
     }
