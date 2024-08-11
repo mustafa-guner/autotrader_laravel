@@ -11,11 +11,10 @@ use Illuminate\View\View;
 
 class VerifyEmailController extends Controller
 {
-    public function __invoke(VerifyEmailRequest $request): View
+    public function __invoke($id,$hash): View
     {
         try {
-            $validated_fields = $request->validated();
-            $user = User::find($validated_fields['user_id']);
+            $user = User::find($id);
             if (!$user) {
                 throw new NotFoundException();
             }
@@ -24,10 +23,10 @@ class VerifyEmailController extends Controller
             }
             $user->markEmailAsVerified();
             Log::info('Email verified successfully.');
-            return view('emails.email-verified-success');
+            return view('emails.email-verification')->with('is_success', true);
         } catch (Exception $e) {
             Log::error('Error verifying email: ' . $e->getMessage());
-            return view('emails.email-verified-fail');
+            return view('emails.email-verification')->with('is_success', false);
         }
     }
 }

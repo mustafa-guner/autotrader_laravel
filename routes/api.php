@@ -30,7 +30,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('reset-password', ResetPasswordController::class);
 });
 
-Route::get('email/verify/{id}/{hash}', VerifyEmailController::class)->name('verification.verify');
+
 Route::get('genders', GenderController::class);
 Route::get('countries', CountryController::class);
 
