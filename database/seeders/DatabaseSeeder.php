@@ -18,12 +18,8 @@ class DatabaseSeeder extends Seeder
             BankSeeder::class,
             PhoneTypeSeeder::class,
             BankSeeder::class,
-
             UserSeeder::class,
-
             AnnouncementSeeder::class,
-            AnnouncementUserSeeder::class,
-
             NotificationSeeder::class,
             NotificationUserSeeder::class
         ]);

@@ -18,17 +18,19 @@ class CountrySeeder extends Seeder
         $countries = json_decode($response->getBody(), true);
 
         foreach ($countries as $country) {
-            DB::table('countries')->updateOrInsert(
-                ['iso_code' => $country['cca2']],
-                [
-                    'name' => $country['name']['common'],
-                    'iso_code' => $country['cca2'],
-                    'flag' => $country['flags']['png'],
-                    'calling_code' => $country['idd']['root'] . (isset($country['idd']['suffixes']) ? implode(', ', $country['idd']['suffixes']) : '')
-                ]
-            );
+            if (isset($country['idd']['root'])) {
+                DB::table('countries')->updateOrInsert(
+                    ['iso_code' => $country['cca2']],
+                    [
+                        'name' => $country['name']['common'],
+                        'iso_code' => $country['cca2'],
+                        'flag' => $country['flags']['png'],
+                        'calling_code' => $country['idd']['root'],
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]
+                );
+            }
         }
-
-
     }
 }
