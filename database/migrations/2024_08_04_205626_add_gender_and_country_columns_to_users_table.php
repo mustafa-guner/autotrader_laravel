@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('gender_id');
-            $table->unsignedBigInteger('country_id');
+            $table->unsignedBigInteger('gender_id')->after('email');
+            $table->unsignedBigInteger('country_id')->after('gender_id');
 
             //Relations
             $table->foreign('gender_id')->references('id')->on('genders');
@@ -27,7 +27,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropForeign('gender_id');
+            $table->dropForeign('country_id');
         });
     }
 };

@@ -12,7 +12,7 @@ class UserRegistrationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,13 +23,13 @@ class UserRegistrationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'firstname' => 'require|string|max:255',
-            'lastname' => 'require|string|max:255',
-            'email' => 'require|string|email|max:255|unique:users',
-            'username' => 'require|string|max:255|unique:users',
-            'country_id' => 'require|integer|exists:countries,id',
-            'gender_id' => 'require|integer|exists:genders,id',
-            'password' => 'require|string|min:8|confirmed',
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'username' => 'required|string|max:255|unique:users',
+            'country_id' => 'required|integer|exists:countries,id',
+            'gender_id' => 'required|integer|exists:genders,id',
+            'password' => 'required|string|min:8|confirmed',
         ];
     }
 }

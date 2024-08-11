@@ -17,20 +17,22 @@ use App\Http\Controllers\TransactionTypeController;
 use App\Http\Controllers\UserTransactionController;
 use App\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\VerifyPhoneController;
+use App\Services\ResponseService;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('register', RegistrationController::class);
-    Route::resource('auth', AuthController::class)->only(['index', 'store']);
+    Route::post('login', [AuthController::class, 'store']);
 });
-Route::get('email/verify/{id}/{hash}', VerifyEmailController::class)->name('verification.verify');
 
+Route::get('email/verify/{id}/{hash}', VerifyEmailController::class)->name('verification.verify');
+Route::get('genders', GenderController::class);
+Route::get('countries', CountryController::class);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('logout', [AuthController::class, 'destroy']);
 
-    Route::get('genders', GenderController::class);
-    Route::get('countries', CountryController::class);
     Route::get('phone-types', PhoneTypeController::class);
     Route::get('transaction-statuses', TransactionStatusController::class);
     Route::get('transaction-types', TransactionTypeController::class);
@@ -53,4 +55,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::resource('announcements', AnnouncementController::class)->only(['store', 'update', 'destroy']);
         Route::resource('user/{id}/transactions', UserTransactionController::class)->only(['index', 'store']);
     });
+});
+
+Route::fallback(function () {
+    return ResponseService::fail('Route not found', Response::HTTP_NOT_FOUND);
 });

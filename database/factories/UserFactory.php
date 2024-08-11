@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Country;
+use App\Models\Gender;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -28,12 +30,11 @@ class UserFactory extends Factory
             'firstname' => fake()->name(),
             'lastname' => fake()->name(),
             'username' => fake()->unique()->userName(),
-            'profile_photo_path' => fake()->imageUrl(),
+            'profile_image' => fake()->imageUrl(),
             'is_active' => true,
             'is_virtual_account' => false,
-            'phone' => fake()->unique()->phoneNumber(),
-            'country_id' => CountryFactory::make(),
-            'gender_id' => GenderFactory::make(),
+            'country_id' => Country::factory(),
+            'gender_id' => Gender::factory(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description');
             $table->text('logo');
-            $table->string('swift_code')->unique();
+            $table->string('swift_code');
             $table->string('website')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
