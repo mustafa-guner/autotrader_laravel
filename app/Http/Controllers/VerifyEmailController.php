@@ -11,7 +11,7 @@ use Illuminate\View\View;
 
 class VerifyEmailController extends Controller
 {
-    public function __invoke($id,$hash): View
+    public function __invoke($id, $hash): View
     {
         try {
             $user = User::find($id);

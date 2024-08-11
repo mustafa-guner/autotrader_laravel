@@ -4,17 +4,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Authentication Language Lines
+    | Kimlik Doğrulama Dil Satırları
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used during authentication for various
-    | messages that we need to display to the user. You are free to modify
-    | these language lines according to your application's requirements.
+    | Aşağıdaki dil satırları, kimlik doğrulama sırasında kullanıcıya
+    | göstermek için gereken çeşitli mesajlar için kullanılır. Uygulamanızın
+    | gereksinimlerine göre bu dil satırlarını değiştirme özgürlüğüne sahipsiniz.
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
-    'password' => 'The provided password is incorrect.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'failed' => 'Bu kimlik bilgileri kayıtlarımızla eşleşmiyor.',
+    'password' => 'Sağlanan şifre yanlış.',
+    'throttle' => 'Çok fazla giriş denemesi yapıldı. Lütfen :seconds saniye içinde tekrar deneyin.',
 
 ];
