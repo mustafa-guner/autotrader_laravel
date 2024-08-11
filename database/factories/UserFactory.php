@@ -29,7 +29,6 @@ class UserFactory extends Factory
         return [
             'firstname' => fake()->name(),
             'lastname' => fake()->name(),
-            'username' => fake()->unique()->userName(),
             'profile_image' => fake()->imageUrl(),
             'is_active' => true,
             'is_virtual_account' => false,
