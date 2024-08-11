@@ -11,14 +11,14 @@ use Illuminate\Queue\SerializesModels;
 class ForgotPasswordMail extends Mailable
 {
     use Queueable, SerializesModels;
-    protected string $token;
+    protected string $password_reset_token;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(string $token)
+    public function __construct(string $password_reset_token)
     {
-        $this->token = $token;
+        $this->password_reset_token = $password_reset_token;
     }
 
     /**
@@ -37,8 +37,8 @@ class ForgotPasswordMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.reset-password-email',
-            with: ['token' => $this->token]
+            view: 'emails/forgot-password-email',
+            with: ['token' => $this->password_reset_token->token]
         );
     }
 }

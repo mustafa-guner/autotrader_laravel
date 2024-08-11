@@ -23,6 +23,7 @@ class ResetPasswordController extends Controller
             $password = $request->get('password');
 
             $user = User::where('email', $email)->first();
+            $password_reset_token = $user->passwordResetToken;
 
             //Check if the user exists
             if (!$user) {
@@ -30,11 +31,9 @@ class ResetPasswordController extends Controller
             }
 
             //Check if the token is expired
-            if ($user->updated_at->addMinutes(5) < now()) {
+            if ($password_reset_token->created_at->addMinutes(5) < now()) {
                 return ResponseService::fail(__('validation.auth.token_expired'), Response::HTTP_UNPROCESSABLE_ENTITY);
             }
-
-            $password_reset_token = $user->passwordResetToken;
 
             //Check if the token is valid
             if ($password_reset_token->token != $token) {
