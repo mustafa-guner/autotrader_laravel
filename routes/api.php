@@ -17,7 +17,6 @@ use App\Http\Controllers\PhoneTypeController;
 use App\Http\Controllers\TransactionStatusController;
 use App\Http\Controllers\TransactionTypeController;
 use App\Http\Controllers\UserTransactionController;
-use App\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\VerifyPhoneController;
 use App\Services\ResponseService;
 use Illuminate\Support\Facades\Route;
@@ -29,7 +28,6 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('forgot-password', ForgotPasswordController::class);
     Route::post('reset-password', ResetPasswordController::class);
 });
-
 
 Route::get('genders', GenderController::class);
 Route::get('countries', CountryController::class);
@@ -46,6 +44,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('announcements', [AnnouncementController::class, 'index']);
 
     Route::group(['prefix' => 'me'], function () {
+        Route::get('/', [AuthController::class, 'index']);
         Route::resource('phones', MyPhoneController::class)->only(['index', 'store']);
         Route::post('phone/verify', VerifyPhoneController::class);
         Route::resource('transactions', MyTransactionController::class)->only(['index', 'show']);
