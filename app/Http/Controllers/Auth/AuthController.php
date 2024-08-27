@@ -23,10 +23,12 @@ class AuthController extends Controller
     {
         try {
             $validated_fields = $request->validated();
+
             if (!auth()->attempt($validated_fields)) {
                 Log::error('Invalid credentials provided.');
                 return ResponseService::fail(trans('auth.invalid_credentials'), Response::HTTP_UNAUTHORIZED);
             }
+
             $user = auth()->user();
 
             if (!$user->hasVerifiedEmail()) {

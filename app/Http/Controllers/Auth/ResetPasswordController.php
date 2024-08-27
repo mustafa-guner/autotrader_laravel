@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ResetPasswordRequest;
+use App\Models\PasswordResetToken;
 use App\Models\User;
 use App\Services\ResponseService;
 use Exception;
@@ -23,11 +24,11 @@ class ResetPasswordController extends Controller
             $token = $validated_fields['token'];
             $password = $request->get('password');
 
-            $user = User::where('email', $email)->first();
-            $password_reset_token = $user->passwordResetToken;
+            $password_reset_token = PasswordResetToken::where('token', $token)->first();
+            $user = $password_reset_token->user;
 
-            //Check if the user exists
-            if (!$user) {
+
+            if (!$password_reset_token || !$user) {
                 throw new NotFoundException('User not found');
             }
 
@@ -45,7 +46,7 @@ class ResetPasswordController extends Controller
             $user->update(['password' => bcrypt($password)]);
             $password_reset_token->delete();
             DB::commit();
-            Log::info('Password reset for user with email: ' . $email);
+            Log::info('Password reset for user with email: ' . $user->email);
             return ResponseService::success(null, __('validation.auth.password_reset_success'));
         } catch (Exception $e) {
             DB::rollBack();
