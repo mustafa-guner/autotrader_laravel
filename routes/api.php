@@ -33,7 +33,7 @@ Route::get('genders', GenderController::class);
 Route::get('countries', CountryController::class);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::post('logout', [AuthController::class, 'destroy']);
+    Route::post('auth/logout', [AuthController::class, 'destroy']);
 
     Route::get('phone-types', PhoneTypeController::class);
     Route::get('transaction-statuses', TransactionStatusController::class);
