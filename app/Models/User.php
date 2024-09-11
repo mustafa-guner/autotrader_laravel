@@ -25,6 +25,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property mixed is_active
  * @property mixed is_virtual_account
  * @property mixed email_verified_at
+ * @property mixed full_name
  * @property mixed $created_at
  * @property mixed $updated_at
  * @property mixed $created_by
@@ -71,6 +72,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'deleted_by',
     ];
 
+    protected $appends = ['full_name'];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -96,6 +99,11 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    public function getFullNameAttribute(): string
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
     public function passwordResetToken(): BelongsTo
     {
         return $this->belongsTo(PasswordResetToken::class, 'email', 'email');
@@ -108,12 +116,12 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function gender(): BelongsTo
     {
-        return $this->belongsTo('gender_id', Gender::class);
+        return $this->belongsTo(Gender::class, 'gender_id');
     }
 
     public function country(): BelongsTo
     {
-        return $this->belongsTo('country_id', Country::class);
+        return $this->belongsTo(Country::class, 'country_id');
     }
 
     public function transactions(): HasMany
@@ -133,16 +141,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function createdBy(): BelongsTo
     {
-        return $this->belongsTo('created_by', User::class);
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function updatedBy(): BelongsTo
     {
-        return $this->belongsTo('updated_by', User::class);
+        return $this->belongsTo(User::class, 'updated_by');
     }
 
     public function deletedBy(): BelongsTo
     {
-        return $this->belongsTo('deleted_by', User::class);
+        return $this->belongsTo(User::class, 'deleted_by');
     }
 }

@@ -22,13 +22,13 @@ class CreateTransactionController extends Controller
             DB::beginTransaction();
             $transaction = Transaction::create($validated_fields);
             DB::commit();
-            $successfull_transaction = Notification::create([
+            Notification::create([
                 'title' => 'Transaction Successful',
                 'content' => 'Your transaction with id ' . $transaction->id . ' has been saved successfully.',
                 'type' => 'success'
             ]);
             Log::info('Transaction with id ' . $transaction->id . ' has been saved successfully for user_id ' . $transaction->user_id);
-            return  ResponseService::success($transaction, trans('commons.success'),Response::HTTP_CREATED);
+            return ResponseService::success($transaction, trans('commons.success'), Response::HTTP_CREATED);
         } catch (Exception $e) {
             DB::rollBack();
             Log::error('Error while saving transaction: ' . $e->getMessage());
