@@ -50,7 +50,7 @@ class ResetPasswordController extends Controller
             $password_reset_token->delete();
             DB::commit();
             Log::info('Password reset for user with email: ' . $user->email);
-            return ResponseService::success(null, __('auth.auth.password_reset_success'));
+            return ResponseService::success(null, __('auth.password_reset_success'));
         } catch (Exception $e) {
             DB::rollBack();
             Log::error('Password reset error: ' . $e->getMessage());
