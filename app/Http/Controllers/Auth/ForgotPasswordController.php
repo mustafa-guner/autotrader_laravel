@@ -38,7 +38,7 @@ class ForgotPasswordController extends Controller
             DB::commit();
             dispatch(new ForgotPasswordJob($password_reset_token));
             Log::info('Password reset mail sent to: ' . $user->email);
-            return ResponseService::success(null, __('common.password_reset_mail_sent'));
+            return ResponseService::success(null, __('auth.password_reset_mail_sent'));
         } catch (Exception $e) {
             DB::rollBack();
             Log::error('Password reset link/token has not been send. Error: ' . $e->getMessage());

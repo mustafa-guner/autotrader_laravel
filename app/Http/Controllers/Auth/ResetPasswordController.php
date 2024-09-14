@@ -22,9 +22,12 @@ class ResetPasswordController extends Controller
         try {
             $validated_fields = $request->validated();
             $token = $validated_fields['token'];
-            $password = $request->get('password');
+            $password = $validated_fields['password'];
+            $email = $validated_fields['email'];
 
-            $password_reset_token = PasswordResetToken::where('token', $token)->first();
+            $password_reset_token = PasswordResetToken::
+            where('email', $email)->where('token', $token)->first();
+
             $user = $password_reset_token->user;
 
 
@@ -47,7 +50,7 @@ class ResetPasswordController extends Controller
             $password_reset_token->delete();
             DB::commit();
             Log::info('Password reset for user with email: ' . $user->email);
-            return ResponseService::success(null, __('validation.auth.password_reset_success'));
+            return ResponseService::success(null, __('auth.auth.password_reset_success'));
         } catch (Exception $e) {
             DB::rollBack();
             Log::error('Password reset error: ' . $e->getMessage());
