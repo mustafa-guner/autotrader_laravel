@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -36,6 +37,7 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @property Country $country
  * @property Gender $gender
+ * @property UserBalance $userBalance
  * @property Transaction[] $transactions
  * @property NotificationUser[] $notifications
  * @property BankAccount[] $bankAccounts
@@ -112,11 +114,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(PasswordResetToken::class, 'email', 'email');
     }
 
-    public function sendEmailVerificationNotification(): void
-    {
-        $this->notify(new VerifyEmail($this));
-    }
-
     public function gender(): BelongsTo
     {
         return $this->belongsTo(Gender::class, 'gender_id');
@@ -145,6 +142,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function phones(): HasMany
     {
         return $this->hasMany(UserPhone::class, 'user_id');
+    }
+
+    public function userBalance(): HasOne
+    {
+        return $this->hasOne(UserBalance::class, 'user_id');
     }
 
     public function createdBy(): BelongsTo

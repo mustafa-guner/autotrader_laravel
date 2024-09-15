@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserRegistered;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\UserRegistrationRequest;
 use App\Models\User;
@@ -22,9 +23,9 @@ class RegistrationController extends Controller
             DB::beginTransaction();
             $validated_fields['password'] = Hash::make($validated_fields['password']);
             $user = User::create($validated_fields);
+            event(new UserRegistered($user));
             DB::commit();
             Log::info('User with email ' . $user->email . ' has been registered successfully.');
-            $user->sendEmailVerificationNotification();
             return ResponseService::success(null, trans('user.account_created_please_verify_your_email'), Response::HTTP_CREATED);
         } catch (Exception $e) {
             DB::rollBack();
