@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('firstname');
             $table->string('lastname');
             $table->text('profile_image')->nullable();
+            $table->date('dob');
             $table->string('email')->unique();
             $table->boolean('is_active')->default(true);
             $table->boolean('is_virtual_account')->default(false);

@@ -19,6 +19,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property mixed lastname
  * @property mixed email
  * @property mixed $profile_image
+ * @property mixed $dob
  * @property mixed password
  * @property mixed country_id
  * @property mixed $gender_id
@@ -62,6 +63,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'profile_image',
+        'dob',
         'country_id',
         'gender_id',
         'is_active',

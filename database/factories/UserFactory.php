@@ -30,6 +30,7 @@ class UserFactory extends Factory
             'firstname' => fake()->name(),
             'lastname' => fake()->name(),
             'profile_image' => fake()->imageUrl(),
+            'dob' => fake()->date(),
             'is_active' => true,
             'is_virtual_account' => false,
             'country_id' => Country::factory(),
