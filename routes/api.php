@@ -10,6 +10,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\Me\CreateTransactionController;
+use App\Http\Controllers\Me\MyBankAccountController;
 use App\Http\Controllers\Me\MyNotificationController;
 use App\Http\Controllers\Me\MyPhoneController;
 use App\Http\Controllers\Me\MyTransactionController;
@@ -50,6 +51,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::resource('transactions', MyTransactionController::class)->only(['index', 'show']);
         Route::post('transactions/create', CreateTransactionController::class);
         Route::get('notifications', MyNotificationController::class);
+        Route::resource('bank-accounts', MyBankAccountController::class)->only(['index', 'store', 'destroy']);
     });
 
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {

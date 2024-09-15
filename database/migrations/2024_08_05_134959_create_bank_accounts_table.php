@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('bank_id');
             $table->string('account_number')->unique();
-            $table->string('currency', 3);
             $table->timestamps();
         });
     }

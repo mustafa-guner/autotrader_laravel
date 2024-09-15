@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             PhoneTypeSeeder::class,
             BankSeeder::class,
             UserSeeder::class,
+            BankAccountSeeder::class,
             AnnouncementSeeder::class,
             NotificationSeeder::class,
             NotificationUserSeeder::class

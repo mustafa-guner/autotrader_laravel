@@ -11,7 +11,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $bank_id
  * @property int $user_id
  * @property string $account_number
- * @property string $currency
+ * @property string $created_at
+ * @property string $updated_at
+ *
+ * @property Bank $bank
  */
 class BankAccount extends Model
 {
@@ -21,7 +24,6 @@ class BankAccount extends Model
         'bank_id',
         'user_id',
         'account_number',
-        'currency',
     ];
 
     public function bank(): BelongsTo

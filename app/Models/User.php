@@ -38,6 +38,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Gender $gender
  * @property Transaction[] $transactions
  * @property NotificationUser[] $notifications
+ * @property BankAccount[] $bankAccounts
  * @property UserPhone[] $phones
  * @property User $createdBy
  * @property User $updatedBy
@@ -129,6 +130,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class, 'transaction_by');
+    }
+
+    public function bankAccounts(): HasMany
+    {
+        return $this->hasMany(BankAccount::class, 'user_id');
     }
 
     public function notifications(): HasMany

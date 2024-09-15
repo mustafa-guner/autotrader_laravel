@@ -20,8 +20,6 @@ class GenderSeeder extends Seeder
             ['definition' => 'Other'],
         ];
 
-        foreach ($genders as $gender) {
-            Gender::create($gender);
-        }
+        Gender::insert($genders);
     }
 }
