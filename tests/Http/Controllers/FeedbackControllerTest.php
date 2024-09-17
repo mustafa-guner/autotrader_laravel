@@ -6,7 +6,6 @@ use App\Events\FeedbackSubmitted;
 use App\Models\FeedbackType;
 use App\Models\User;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -15,7 +14,6 @@ class FeedbackControllerTest extends TestCase
     public function test_it_stores_feedback_and_fires_event()
     {
         Event::fake();
-        Mail::fake();
         $user = User::factory()->create();
         $feedbackType = FeedbackType::factory()->create();
 
