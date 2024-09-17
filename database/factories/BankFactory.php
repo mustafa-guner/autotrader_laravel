@@ -20,7 +20,6 @@ class BankFactory extends Factory
         return [
             'name' => $this->faker->company . ' Bank',
             'description' => $this->faker->sentence,
-            'logo' => $this->faker->imageUrl(),
             'swift_code' => $this->faker->word,
             'is_active' => $this->faker->boolean,
             'website' => $this->faker->url,

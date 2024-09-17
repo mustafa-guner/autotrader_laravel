@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $name
  * @property string $description
- * @property string $logo
  * @property string $swift_code
  * @property bool $is_active
  * @property string $website
@@ -25,7 +24,6 @@ class Bank extends Model
     protected $fillable = [
         'name',
         'description',
-        'logo',
         'swift_code',
         'is_active',
         'website',

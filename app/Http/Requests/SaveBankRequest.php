@@ -9,7 +9,6 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property mixed $name
  * @property mixed $description
  * @property mixed $swift_code
- * @property mixed $logo
  * @property mixed $website
  * @property mixed $is_active
  */
@@ -34,7 +33,6 @@ class SaveBankRequest extends FormRequest
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'swift_code' => 'required|string|max:255|unique:banks,code',
-            'logo' => 'nullable|file|image|max:1024',
         ];
     }
 

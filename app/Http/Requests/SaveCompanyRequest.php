@@ -10,7 +10,6 @@ use Illuminate\Foundation\Http\FormRequest;
  * @package App\Http\Requests
  * @property string $name
  * @property string $description
- * @property string $logo
  * @property string|null $website
  *
  */
@@ -34,7 +33,6 @@ class SaveCompanyRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'logo' => 'nullable|file|image|max:1024',
             'website' => 'nullable|max:255|url',
         ];
     }

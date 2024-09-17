@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\Me\CreateTransactionController;
 use App\Http\Controllers\Me\MyBankAccountController;
@@ -54,7 +55,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::resource('bank-accounts', MyBankAccountController::class)->only(['index', 'store', 'destroy']);
     });
 
+    Route::post('feedbacks/create', [FeedbackController::class, 'store'])->name('feedbacks.store');
+
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
+        Route::resource('feedbacks', FeedbackController::class)->only(['index']);
         Route::resource('banks', BankController::class)->only(['store', 'update', 'destroy']);
         Route::resource('companies', CompanyController::class)->only(['store', 'update', 'destroy']);
         Route::resource('announcements', AnnouncementController::class)->only(['store', 'update', 'destroy']);

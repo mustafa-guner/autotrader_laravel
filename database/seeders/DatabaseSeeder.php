@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             BankAccountSeeder::class,
             AnnouncementSeeder::class,
             NotificationSeeder::class,
-            NotificationUserSeeder::class
+            NotificationUserSeeder::class,
+            FeedbackTypeSeeder::class,
         ]);
     }
 }
