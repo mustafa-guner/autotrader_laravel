@@ -9,6 +9,7 @@ use App\Http\Controllers\BankController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\FeedbackTypeController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\Me\CreateTransactionController;
 use App\Http\Controllers\Me\MyBankAccountController;
@@ -55,6 +56,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::resource('bank-accounts', MyBankAccountController::class)->only(['index', 'store', 'destroy']);
     });
 
+    Route::get('feedback-types', [FeedbackTypeController::class, 'index'])->name('feedback-types.index');
     Route::post('feedbacks/create', [FeedbackController::class, 'store'])->name('feedbacks.store');
 
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
