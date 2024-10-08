@@ -23,7 +23,10 @@ class SendFeedbackNotification
      */
     public function handle(FeedbackSubmitted $event): void
     {
-        $responsible_person = config('app.responsible_person');
-        Mail::to($responsible_person)->send(new FeedbackNotification($event->feedback));
+        $responsible_people = config('feedback.feedback_responsible_people');
+        foreach ($responsible_people as $responsible_person) {
+            Mail::to($responsible_person)
+                ->send(new FeedbackNotification($event->feedback));
+        }
     }
 }

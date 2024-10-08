@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Constants\FeedbackTypeConstants;
 use App\Models\Feedback;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -29,8 +30,9 @@ class FeedbackNotification extends Mailable
      */
     public function envelope(): Envelope
     {
+        $subject =  'New Feedback (' . $this->feedback->feedbackType->name . ')';
         return new Envelope(
-            subject: 'New Feedback Submitted',
+            subject: $subject,
         );
     }
 

@@ -45,6 +45,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property User $createdBy
  * @property User $updatedBy
  * @property User $deletedBy
+ *
+ * @function getMembershipDuration(): string
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -163,4 +165,17 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(User::class, 'deleted_by');
     }
+
+    public function getMembershipDuration(): string
+    {
+
+        if (!$this->email_verified_at) {
+            return 'N/A';
+        }
+
+        $duration = now()->diff($this->email_verified_at);
+        return "{$duration->d} day" . ($duration->d !== 1 ? 's' : '') . ", {$duration->h} hour" . ($duration->h !== 1 ? 's' : '') . ", {$duration->i} minute" . ($duration->i !== 1 ? 's' : '');
+    }
+
+
 }
