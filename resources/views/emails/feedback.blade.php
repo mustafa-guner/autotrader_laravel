@@ -6,7 +6,7 @@
 
 @section('content')
     <p>You have received <strong>{{ strtoupper($feedback->feedbackType->name) }}</strong> type feedback recently.</p>
-    <p><strong>{{$feedback->user->full_name}}</strong> (member for {{$feedback->user->getMembershipDuration()}}) said:
+    <p><strong>{{$feedback->user->full_name}}</strong> said:
     </p>
     <blockquote
         style=" font-size: 13px; padding: .4rem; border-left: 4px solid #ccc; margin: 20px 0;">
