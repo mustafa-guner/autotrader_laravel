@@ -31,10 +31,7 @@ class ForgotPasswordController extends Controller
             DB::beginTransaction();
             $password_reset_token = PasswordResetToken::updateOrCreate(
                 ['email' => $user->email],
-                [
-                    'token' => $token,
-                    'created_at' => now()
-                ]);
+                ['token' => $token, 'created_at' => now()]);
             DB::commit();
             dispatch(new ForgotPasswordJob($password_reset_token));
             Log::info('Password reset mail sent to: ' . $user->email);

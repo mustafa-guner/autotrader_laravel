@@ -28,7 +28,7 @@ class ForgotPasswordMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Reset Password / Şifre Yenileme',
+            subject: 'Reset Password',
         );
     }
 
@@ -39,7 +39,7 @@ class ForgotPasswordMail extends Mailable
     {
         return new Content(
             view: 'emails/forgot-password-email',
-            with: ['token' => $this->password_reset_token->token]
+            with: ['password_reset_token' => $this->password_reset_token]
         );
     }
 }

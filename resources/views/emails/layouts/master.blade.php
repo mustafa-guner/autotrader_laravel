@@ -21,7 +21,9 @@
         }
 
         a {
-            color: #3869D4;
+            font-size: 19px;
+            font-weight: bold;
+            color: #3d4852 !important;
         }
 
         a img {
@@ -54,10 +56,10 @@
 
         h1 {
             margin-top: 0;
-            color: #333333;
-            font-size: 22px;
             font-weight: bold;
             text-align: left;
+            font-size: 18px;
+            color: #3d4852;
         }
 
         h2 {
@@ -295,12 +297,16 @@
         }
 
         body {
-            background-color: #F2F4F6;
-            color: #51545E;
+            background-color: #EDF2F7;
+            color: #3d4852;
         }
 
         p {
-            color: #51545E;
+            color: #718096;
+        }
+
+        strong {
+            color: #2D3748;
         }
 
         .email-wrapper {
@@ -310,7 +316,7 @@
             -premailer-width: 100%;
             -premailer-cellpadding: 0;
             -premailer-cellspacing: 0;
-            background-color: #F2F4F6;
+            background-color: #EDF2F7;
         }
 
         .email-content {
@@ -473,8 +479,12 @@
                             <tr>
                                 <td class="content-cell">
                                     <div class="f-fallback">
-                                        @yield('heading')
+                                        <h1>@yield('heading')</h1>
                                         @yield('content')
+                                        <p style="margin-top: 2rem">
+                                            Regards, <br>
+                                            {{ config('app.name') }} Team
+                                        </p>
                                     </div>
                                 </td>
                             </tr>
@@ -489,8 +499,7 @@
                             <tr>
                                 <td class="content-cell" align="center">
                                     <p class="f-fallback sub align-center">
-                                        Sincerely Best Regards, <br>
-                                        {{ config('app.name') }}
+                                        &copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
                                     </p>
                                 </td>
                             </tr>
