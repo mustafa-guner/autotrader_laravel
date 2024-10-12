@@ -3,13 +3,13 @@
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
-use App\Http\Controllers\FeedbackController;
-use App\Http\Controllers\FeedbackTypeController;
+use App\Http\Controllers\Feedback\FeedbackController;
+use App\Http\Controllers\Feedback\FeedbackTypeController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\Me\CreateTransactionController;
 use App\Http\Controllers\Me\MyBankAccountController;
@@ -26,39 +26,42 @@ use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 Route::group(['prefix' => 'auth'], function () {
-    Route::post('register', RegistrationController::class);
-    Route::post('login', [AuthController::class, 'store']);
-    Route::post('forgot-password', ForgotPasswordController::class);
-    Route::post('reset-password', ResetPasswordController::class);
+    Route::post('register', RegisterController::class)->name('auth.register');
+    Route::post('login', [AuthController::class, 'store'])->name('auth.login');
+    Route::post('forgot-password', ForgotPasswordController::class)->name('auth.forgot-password');
+    Route::post('reset-password', ResetPasswordController::class)->name('auth.reset-password');
 });
 
-Route::get('genders', GenderController::class);
-Route::get('countries', CountryController::class);
+Route::get('genders', GenderController::class)->name('genders.index');
+Route::get('countries', CountryController::class)->name('countries.index');
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::post('auth/logout', [AuthController::class, 'destroy']);
+    Route::post('auth/logout', [AuthController::class, 'destroy'])->name('auth.logout');
 
-    Route::get('phone-types', PhoneTypeController::class);
-    Route::get('transaction-statuses', TransactionStatusController::class);
-    Route::get('transaction-types', TransactionTypeController::class);
+    //Phone types module is not in use currently
+    Route::get('phone-types', PhoneTypeController::class)->name('phone-types.index');
+    Route::get('transaction-statuses', TransactionStatusController::class)->name('transaction-statuses.index');
+    Route::get('transaction-types', TransactionTypeController::class)->name('transaction-types.index');
 
-    Route::get('banks', [BankController::class, 'index']);
-    Route::get('companies', [CompanyController::class, 'index']);
-    Route::get('announcements', [AnnouncementController::class, 'index']);
+    Route::get('banks', [BankController::class, 'index'])->name('banks.index');
+    Route::get('companies', [CompanyController::class, 'index'])->name('companies.index');
+    Route::get('announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 
     Route::group(['prefix' => 'me'], function () {
-        Route::get('/', [AuthController::class, 'index']);
+        Route::get('/', [AuthController::class, 'index'])->name('me.index');
         Route::resource('phones', MyPhoneController::class)->only(['index', 'store']);
-        Route::post('phone/verify', VerifyPhoneController::class);
+        Route::post('phone/verify', VerifyPhoneController::class)->name('phone.verify');
         Route::resource('transactions', MyTransactionController::class)->only(['index', 'show']);
-        Route::post('transactions/create', CreateTransactionController::class);
-        Route::get('notifications', MyNotificationController::class);
+        Route::post('transactions/create', CreateTransactionController::class)->name('transactions.create');
+        Route::get('notifications', MyNotificationController::class)->name('notifications.index');
         Route::resource('bank-accounts', MyBankAccountController::class)->only(['index', 'store', 'destroy']);
     });
 
     Route::get('feedback-types', [FeedbackTypeController::class, 'index'])->name('feedback-types.index');
     Route::post('feedbacks/create', [FeedbackController::class, 'store'])->name('feedbacks.store');
 
+
+    //Admin module is not in use currently
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
         Route::resource('feedbacks', FeedbackController::class)->only(['index']);
         Route::resource('banks', BankController::class)->only(['store', 'update', 'destroy']);

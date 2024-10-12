@@ -2,9 +2,6 @@
 
 namespace App\Providers;
 
-use App\Events\UserRegistered;
-use App\Listeners\CreateUserBalance;
-use App\Listeners\SendVerificationEmail;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -14,12 +11,7 @@ class EventServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $listen = [
-        UserRegistered::class => [
-            CreateUserBalance::class,
-            SendVerificationEmail::class
-        ],
-    ];
+    protected $listen = [];
 
     /**
      * Register any events for your application.

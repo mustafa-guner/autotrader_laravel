@@ -2,23 +2,27 @@
 
 namespace App\Notifications;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class VerifyEmail extends Notification
+class BalanceNotification extends Notification
 {
     use Queueable;
 
-    protected User $user;
+    public int $amount;
+    public string $currency;
+    public string $message;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(User $user)
+    public function __construct($amount, $currency)
     {
-        $this->user = $user;
+        $this->amount = $amount;
+        $this->currency = $currency;
+        $this->message = trans('balance.default_notification_message', ['amount' => $amount, 'currency' => $currency]);
     }
 
     /**
@@ -37,11 +41,12 @@ class VerifyEmail extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Verify Your Email Address')
-            ->line('Please click the button below to verify your email address.')
-            ->line('If you did not create an account, no further action is required.')
-            ->action('Verify Email Address', $this->verificationUrl($notifiable));
+            ->subject('Balance Notification')
+            ->line($notifiable->firstname . ',')
+            ->line($this->message)
+            ->action('Check your balance', config('app.client_url'));
     }
+
 
     /**
      * Get the array representation of the notification.
@@ -54,11 +59,4 @@ class VerifyEmail extends Notification
             //
         ];
     }
-
-    protected function verificationUrl($notifiable): string
-    {
-        return url('/email/verify/' . $notifiable->getKey() . '/' .
-            sha1($notifiable->getEmailForVerification()));
-    }
-
 }

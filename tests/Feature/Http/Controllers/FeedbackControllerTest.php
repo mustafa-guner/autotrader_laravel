@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Http\Controllers;
+namespace Tests\Feature\Http\Controllers;
 
 use App\Events\FeedbackSubmitted;
 use App\Models\FeedbackType;
@@ -11,9 +11,13 @@ use Tests\TestCase;
 
 class FeedbackControllerTest extends TestCase
 {
-    public function test_it_stores_feedback_and_fires_event()
+    public function test_it_stores_feedback()
     {
         Event::fake();
+        /**
+         * @var User $user
+         * @var FeedbackType $feedbackType
+         */
         $user = User::factory()->create();
         $feedbackType = FeedbackType::factory()->create();
 

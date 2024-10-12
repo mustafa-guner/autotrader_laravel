@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Feedback;
 
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\FeedbackTypeResource;
 use App\Models\FeedbackType;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;

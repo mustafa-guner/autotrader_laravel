@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Exceptions\NotFoundException;
-use App\Http\Requests\VerifyEmailRequest;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Log;

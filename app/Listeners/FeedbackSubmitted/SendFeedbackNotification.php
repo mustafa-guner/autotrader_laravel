@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Listeners;
+namespace App\Listeners\FeedbackSubmitted;
 
 use App\Events\FeedbackSubmitted;
-use App\Mail\FeedbackNotification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
+use App\Mail\FeedbackMail;
 use Illuminate\Support\Facades\Mail;
 
 class SendFeedbackNotification
@@ -26,7 +24,7 @@ class SendFeedbackNotification
         $responsible_people = config('feedback.feedback_responsible_people');
         foreach ($responsible_people as $responsible_person) {
             Mail::to($responsible_person)
-                ->send(new FeedbackNotification($event->feedback));
+                ->send(new FeedbackMail($event->feedback));
         }
     }
 }

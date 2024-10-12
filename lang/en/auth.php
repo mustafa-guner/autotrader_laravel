@@ -21,6 +21,6 @@ return [
     'invalid_credentials' => 'Email or password is not correct.',
     'password_reset_mail_sent' => 'Password reset mail sent successfully.',
     'password_reset_success' => 'Password reset successfully.',
-
+    'account_created_please_verify_your_email' => 'Please verify your email address.',
 
 ];

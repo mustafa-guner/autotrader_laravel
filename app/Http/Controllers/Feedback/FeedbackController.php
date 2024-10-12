@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Feedback;
 
 use App\Events\FeedbackSubmitted;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\SaveFeedbackRequest;
 use App\Http\Resources\FeedbackResource;
 use App\Models\Feedback;

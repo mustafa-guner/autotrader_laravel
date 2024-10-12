@@ -14,7 +14,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property int gender_id
  * @property string password
  */
-class UserRegistrationRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -35,7 +35,7 @@ class UserRegistrationRequest extends FormRequest
             'firstname' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'dob' => 'required|date|before:' . now()->subYears(18)->format('Y-m-d'), //users must be 18 years old minimum
+            'dob' => 'required|date|before:' . now()->subYears(18)->toDateString(),
             'country_id' => 'required|integer|exists:countries,id',
             'gender_id' => 'required|integer|exists:genders,id',
             'password' => 'required|string|min:8|confirmed',
