@@ -2,8 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Models\UserBalance;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -11,18 +11,14 @@ class BalanceNotification extends Notification
 {
     use Queueable;
 
-    public int $amount;
-    public string $currency;
-    public string $message;
+    public UserBalance $userBalance;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($amount, $currency)
+    public function __construct(UserBalance $userBalance)
     {
-        $this->amount = $amount;
-        $this->currency = $currency;
-        $this->message = trans('balance.default_notification_message', ['amount' => $amount, 'currency' => $currency]);
+        $this->userBalance = $userBalance;
     }
 
     /**
@@ -43,7 +39,7 @@ class BalanceNotification extends Notification
         return (new MailMessage)
             ->subject('Balance Notification')
             ->line($notifiable->firstname . ',')
-            ->line($this->message)
+            ->line(trans('balance.default_notification_message', ['amount' => $this->userBalance->balance, 'currency' => $this->userBalance->currency]))
             ->action('Check your balance', config('app.client_url'));
     }
 

@@ -77,4 +77,16 @@ class RegisterControllerTest extends TestCase
         $user = User::where('email', $userData['email'])->first();
         Notification::assertSentTo($user, BalanceNotification::class);
     }
+
+    public function test_it_should_create_user_balance()
+    {
+        $userData = $this->getUserData();
+        $this->post(route('auth.register'), $userData);
+        $user = User::where('email', $userData['email'])->first();
+        $this->assertDatabaseHas('user_balances', [
+            'user_id' => $user->id,
+            'balance' => UserBalanceConstants::WELCOME_BONUS,
+            'currency' => UserBalanceConstants::DEFAULT_CURRENCY,
+        ]);
+    }
 }

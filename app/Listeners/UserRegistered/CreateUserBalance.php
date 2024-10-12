@@ -31,7 +31,7 @@ class CreateUserBalance
             $userBalance = UserBalance::create(['user_id' => $user->id]);
             DB::commit();
             Log::info('User balance with ID ' . $userBalance->id . ' is created. User ID: ' . $userBalance->user_id);
-            $user->notify(new BalanceNotification(UserBalanceConstants::WELCOME_BONUS, UserBalanceConstants::DEFAULT_CURRENCY));
+            $user->notify(new BalanceNotification($userBalance));
         } catch (Exception $e) {
             DB::rollBack();
             Log::error('User balance is not created. Error: ' . $e->getMessage());

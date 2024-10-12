@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property int $user_id
  * @property string $balance
+ * @property string $currency
  * @property mixed $created_at
  * @property mixed $updated_at
  */
