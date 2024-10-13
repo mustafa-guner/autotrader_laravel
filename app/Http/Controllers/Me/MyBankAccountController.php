@@ -31,6 +31,9 @@ class MyBankAccountController extends Controller
             $validated_fields = $request->validated();
             $validated_fields['user_id'] = auth()->user()->id;
             DB::beginTransaction();
+            if(auth()->user()->bankAccounts()->count() >= 3) {
+                return ResponseService::fail('You can not add more than 3 bank accounts');
+            }
             $bank_account = BankAccount::create($validated_fields);
             DB::commit();
             Log::info('User with id ' . auth()->id() . ' created a bank account with id ' . $bank_account->id);

@@ -23,6 +23,7 @@ class PaymentMethodFactory extends Factory
             'card_number' => $this->faker->creditCardNumber,
             'card_holder' => $this->faker->name,
             'expiration_date' => $this->faker->creditCardExpirationDate,
+            'is_default' => $this->faker->boolean,
             'cvv' => $this->faker->randomNumber(3),
         ];
     }

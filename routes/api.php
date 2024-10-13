@@ -17,6 +17,7 @@ use App\Http\Controllers\Me\MyBankAccountController;
 use App\Http\Controllers\Me\MyNotificationController;
 use App\Http\Controllers\Me\MyPhoneController;
 use App\Http\Controllers\Me\MyTransactionController;
+use App\Http\Controllers\PaymentMethodSetDefaultController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PhoneTypeController;
 use App\Http\Controllers\TransactionStatusController;
@@ -57,23 +58,18 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::put('/update',[UpdateProfileController::class,'update']);
         Route::resource('phones', MyPhoneController::class)->only(['index', 'store']);
         Route::post('phone/verify', VerifyPhoneController::class)->name('phone.verify');
-
         Route::get('balance-histories', [UserBalanceHistoryController::class, 'index'])->name('balance-histories.index');
-
         Route::resource('transactions', MyTransactionController::class)->only(['index', 'show']);
         Route::post('transactions/create', CreateTransactionController::class)->name('transactions.create');
         Route::get('notifications', MyNotificationController::class)->name('notifications.index');
-
         Route::resource('bank-accounts', MyBankAccountController::class)->only(['index', 'store', 'destroy']);
         Route::resource('payment-methods', PaymentMethodController::class)->only(['index', 'store','destroy']);
-
+        Route::put('payment-methods/{id}/default', [PaymentMethodSetDefaultController::class,'update']);
         Route::put('deposit',[DepositController::class,'update']);
         Route::put('withdraw',[WithdrawController::class,'update']);
     });
-
     Route::get('feedback-types', [FeedbackTypeController::class, 'index'])->name('feedback-types.index');
     Route::post('feedbacks/create', [FeedbackController::class, 'store'])->name('feedbacks.store');
-
 
     //Admin module is not in use currently
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {

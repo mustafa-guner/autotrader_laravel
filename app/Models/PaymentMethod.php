@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int user_id
  * @property string card_number
  * @property string card_holder
+ * @property bool is_default
  * @property string expiration_date
  * @property int cvv
  *
@@ -28,6 +29,7 @@ class PaymentMethod extends Model
         'card_number',
         'card_holder',
         'expiration_date',
+        'is_default',
         'cvv',
     ];
 

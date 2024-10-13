@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('card_holder');
             $table->string('expiration_date');
             $table->string('cvv');
+            $table->boolean('is_default')->default(false);
             $table->timestamps();
             $table->softDeletes();
 

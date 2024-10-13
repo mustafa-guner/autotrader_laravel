@@ -33,6 +33,9 @@ class PaymentMethodController extends Controller
             $user = auth()->user();
             $fields['user_id'] = $user->id;
             DB::beginTransaction();
+            if ($user->paymentMethods()->count() >= 3) {
+                return ResponseService::fail('You can not add more than 3 payment methods');
+            }
             $payment_detail = PaymentMethod::create($fields);
             DB::commit();
             Log::info('User with id ' . $user->id . ' has added a payment method with id ' . $payment_detail->id);
