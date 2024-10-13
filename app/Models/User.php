@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Models;
-
-
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -44,6 +42,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property UserPhone[] $phones
  * @property UserBalanceHistory[] $userBalanceHistory
  * @property PaymentMethod[] $paymentMethods
+ * @property UserShare[] $shares
  * @property User $createdBy
  * @property User $updatedBy
  * @property User $deletedBy
@@ -149,6 +148,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function userBalance(): HasOne
     {
         return $this->hasOne(UserBalance::class, 'user_id');
+    }
+
+    public function shares(): HasMany
+    {
+        return $this->hasMany(UserShare::class, 'user_id');
     }
 
     public function userBalanceHistory(): HasMany

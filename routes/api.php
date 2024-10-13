@@ -50,20 +50,24 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('transaction-types', TransactionTypeController::class)->name('transaction-types.index');
 
     Route::get('banks', [BankController::class, 'index'])->name('banks.index');
-    Route::get('companies', [CompanyController::class, 'index'])->name('companies.index');
+//    Route::get('companies', [CompanyController::class, 'index'])->name('companies.index');
     Route::get('announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 
     Route::group(['prefix' => 'me'], function () {
         Route::get('/', [AuthController::class, 'index'])->name('me.index');
-        Route::put('/update',[UpdateProfileController::class,'update']);
-        Route::resource('phones', MyPhoneController::class)->only(['index', 'store']);
-        Route::post('phone/verify', VerifyPhoneController::class)->name('phone.verify');
         Route::get('balance-histories', [UserBalanceHistoryController::class, 'index'])->name('balance-histories.index');
-        Route::resource('transactions', MyTransactionController::class)->only(['index', 'show']);
-        Route::post('transactions/create', CreateTransactionController::class)->name('transactions.create');
         Route::get('notifications', MyNotificationController::class)->name('notifications.index');
+        //Route::get('shares');
+
+        Route::post('phone/verify', VerifyPhoneController::class)->name('phone.verify');
+        Route::post('transactions/create', CreateTransactionController::class)->name('transactions.create');
+
+        Route::resource('phones', MyPhoneController::class)->only(['index', 'store']);
+        Route::resource('transactions', MyTransactionController::class)->only(['index', 'show']);
         Route::resource('bank-accounts', MyBankAccountController::class)->only(['index', 'store', 'destroy']);
         Route::resource('payment-methods', PaymentMethodController::class)->only(['index', 'store','destroy']);
+
+        Route::put('/update',[UpdateProfileController::class,'update']);
         Route::put('payment-methods/{id}/default', [PaymentMethodSetDefaultController::class,'update']);
         Route::put('deposit',[DepositController::class,'update']);
         Route::put('withdraw',[WithdrawController::class,'update']);
@@ -75,7 +79,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
         Route::resource('feedbacks', FeedbackController::class)->only(['index']);
         Route::resource('banks', BankController::class)->only(['store', 'update', 'destroy']);
-        Route::resource('companies', CompanyController::class)->only(['store', 'update', 'destroy']);
         Route::resource('announcements', AnnouncementController::class)->only(['store', 'update', 'destroy']);
         Route::resource('user/{id}/transactions', UserTransactionController::class)->only(['index', 'store']);
     });
