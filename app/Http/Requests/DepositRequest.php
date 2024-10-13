@@ -2,14 +2,22 @@
 
 namespace App\Http\Requests;
 
+use App\Services\ResponseService;
+use App\Rules\ExpirationDate;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Contracts\Validation\Validator;
 
 /**
  * Class DepositRequest
  * @package App\Http\Requests
  * @property int amount
- * @property int bank_account_id
+ * @property int card_number
+ * @property string card_holder
+ * @property string expiration_date
+ * @property int cvv
  */
 class DepositRequest extends FormRequest
 {
@@ -30,7 +38,21 @@ class DepositRequest extends FormRequest
     {
         return [
             'amount' => 'required|integer|min:1',
-            'bank_account_id' => 'required|integer|exists:bank_accounts,id'
+            'card_number' => 'required|integer|digits:16',
+            'card_holder' => 'required|string',
+            'expiration_date' => [
+                'required',
+                new ExpirationDate(),
+            ],
+            'cvv' => 'required|integer|digits:3',
         ];
+    }
+
+    protected function failedValidation(Validator $validator): void
+    {
+        $error = $validator->errors()->first();
+        throw new HttpResponseException(
+            ResponseService::fail($error, Response::HTTP_UNPROCESSABLE_ENTITY)
+        );
     }
 }

@@ -17,9 +17,11 @@ use App\Http\Controllers\Me\MyBankAccountController;
 use App\Http\Controllers\Me\MyNotificationController;
 use App\Http\Controllers\Me\MyPhoneController;
 use App\Http\Controllers\Me\MyTransactionController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PhoneTypeController;
 use App\Http\Controllers\TransactionStatusController;
 use App\Http\Controllers\TransactionTypeController;
+use App\Http\Controllers\UpdateProfileController;
 use App\Http\Controllers\UserBalanceHistoryController;
 use App\Http\Controllers\UserTransactionController;
 use App\Http\Controllers\VerifyPhoneController;
@@ -52,6 +54,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::group(['prefix' => 'me'], function () {
         Route::get('/', [AuthController::class, 'index'])->name('me.index');
+        Route::put('/update',[UpdateProfileController::class,'update']);
         Route::resource('phones', MyPhoneController::class)->only(['index', 'store']);
         Route::post('phone/verify', VerifyPhoneController::class)->name('phone.verify');
 
@@ -60,7 +63,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::resource('transactions', MyTransactionController::class)->only(['index', 'show']);
         Route::post('transactions/create', CreateTransactionController::class)->name('transactions.create');
         Route::get('notifications', MyNotificationController::class)->name('notifications.index');
+
         Route::resource('bank-accounts', MyBankAccountController::class)->only(['index', 'store', 'destroy']);
+        Route::resource('payment-details', PaymentMethodController::class)->only(['index', 'store']);
 
         Route::put('deposit',[DepositController::class,'update']);
         Route::put('withdraw',[WithdrawController::class,'update']);

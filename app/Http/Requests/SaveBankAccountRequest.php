@@ -2,8 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Services\ResponseService;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @property int $bank_id
@@ -30,5 +34,14 @@ class SaveBankAccountRequest extends FormRequest
             'bank_id' => 'required|integer|exists:banks,id',
             'account_number' => 'required|string|unique:bank_accounts,account_number',
         ];
+    }
+
+    protected function failedValidation(Validator $validator): void
+    {
+        $error = $validator->errors()->first();
+        throw new HttpResponseException(
+            ResponseService::fail($error, Response::HTTP_UNPROCESSABLE_ENTITY)
+        );
+
     }
 }

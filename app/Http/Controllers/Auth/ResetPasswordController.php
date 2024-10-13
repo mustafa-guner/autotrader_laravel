@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Exceptions\NotFoundException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ResetPasswordRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Models\PasswordResetToken;
-use App\Models\User;
 use App\Services\ResponseService;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\JsonResponse;

@@ -24,6 +24,7 @@ class UserBalanceHistoryResource extends JsonResource
             'currency' => $this->currency,
             'balance' => $this->userBalance,
             'transaction_type' => $this->transactionType,
+            'payment_method' => $this->paymentMethod,
             'bank_account' => $this->bankAccount,
             'created_at' => $this->created_at->format('d.m.y H:i'),
         ];

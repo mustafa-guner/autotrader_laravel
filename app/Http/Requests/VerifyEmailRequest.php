@@ -2,8 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Services\ResponseService;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @property mixed user_id
@@ -39,5 +43,14 @@ class VerifyEmailRequest extends FormRequest
             'user_id.exists' => trans('error.user.user_id_not_found'),
             'hash.required' => trans('error.user.hash_required'),
         ];
+    }
+
+    protected function failedValidation(Validator $validator): void
+    {
+        $error = $validator->errors()->first();
+        throw new HttpResponseException(
+            ResponseService::fail($error, Response::HTTP_UNPROCESSABLE_ENTITY)
+        );
+
     }
 }

@@ -2,8 +2,12 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Services\ResponseService;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @property string firstname
@@ -58,5 +62,13 @@ class RegisterRequest extends FormRequest
             'dob.before' => 'You must be at least 18 years old to register',
             'country_id.required' => 'Country is required',
         ];
+    }
+    protected function failedValidation(Validator $validator): void
+    {
+        $error = $validator->errors()->first();
+        throw new HttpResponseException(
+            ResponseService::fail($error, Response::HTTP_UNPROCESSABLE_ENTITY)
+        );
+
     }
 }

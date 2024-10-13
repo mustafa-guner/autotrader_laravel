@@ -3,8 +3,12 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
+use App\Services\ResponseService;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class WithdrawRequest
@@ -40,6 +44,15 @@ class WithdrawRequest extends FormRequest
             'amount' => 'required|integer|min:1|max:' . $userBalance,
             'bank_account_id' => 'required|integer|exists:bank_accounts,id',
         ];
+    }
+
+    protected function failedValidation(Validator $validator): void
+    {
+        $error = $validator->errors()->first();
+        throw new HttpResponseException(
+            ResponseService::fail($error, Response::HTTP_UNPROCESSABLE_ENTITY)
+        );
+
     }
 
     /**

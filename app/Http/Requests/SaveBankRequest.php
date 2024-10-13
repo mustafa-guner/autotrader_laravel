@@ -2,8 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Services\ResponseService;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @property mixed $name
@@ -46,5 +50,14 @@ class SaveBankRequest extends FormRequest
             'swift_code.required' => trans('validation.required'),
             'swift_code.unique' => trans('validation.unique', ['attribute' => 'swift_code']),
         ];
+    }
+
+    protected function failedValidation(Validator $validator): void
+    {
+        $error = $validator->errors()->first();
+        throw new HttpResponseException(
+            ResponseService::fail($error, Response::HTTP_UNPROCESSABLE_ENTITY)
+        );
+
     }
 }

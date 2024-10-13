@@ -2,8 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Services\ResponseService;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 
 class VerifyPhoneRequest extends FormRequest
 {
@@ -25,5 +29,14 @@ class VerifyPhoneRequest extends FormRequest
         return [
             'verification_code' => 'required|string|max:255|min:6|exists:user_phones,verification_code',
         ];
+    }
+
+    protected function failedValidation(Validator $validator): void
+    {
+        $error = $validator->errors()->first();
+        throw new HttpResponseException(
+            ResponseService::fail($error, Response::HTTP_UNPROCESSABLE_ENTITY)
+        );
+
     }
 }

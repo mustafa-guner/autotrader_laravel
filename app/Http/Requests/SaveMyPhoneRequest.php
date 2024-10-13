@@ -2,8 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Services\ResponseService;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @property mixed phone_number
@@ -51,5 +55,14 @@ class SaveMyPhoneRequest extends FormRequest
             'phone_type_id.exists' => trans('validation.exists'),
             'phone_type_id.unique' => trans('validation.unique'),
         ];
+    }
+
+    protected function failedValidation(Validator $validator): void
+    {
+        $error = $validator->errors()->first();
+        throw new HttpResponseException(
+            ResponseService::fail($error, Response::HTTP_UNPROCESSABLE_ENTITY)
+        );
+
     }
 }

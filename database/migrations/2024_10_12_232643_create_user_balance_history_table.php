@@ -16,7 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('user_balance_id');
             $table->string('amount');
             $table->string('currency');
-            $table->unsignedBigInteger('bank_account_id');
+            $table->unsignedBigInteger('bank_account_id')->nullable();
+            $table->unsignedBigInteger('payment_method_id')->nullable();
             $table->unsignedBigInteger('transaction_type_id');
             $table->timestamps();
             $table->softDeletes();
@@ -24,6 +25,7 @@ return new class extends Migration
             // Relations
             $table->foreign('user_balance_id')->references('id')->on('user_balances');
             $table->foreign('bank_account_id')->references('id')->on('bank_accounts');
+            $table->foreign('payment_method_id')->references('id')->on('payment_methods');
             $table->foreign('transaction_type_id')->references('id')->on('transaction_types');
         });
     }

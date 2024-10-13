@@ -43,6 +43,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property BankAccount[] $bankAccounts
  * @property UserPhone[] $phones
  * @property UserBalanceHistory[] $userBalanceHistory
+ * @property PaymentMethod[] $paymentDetails
  * @property User $createdBy
  * @property User $updatedBy
  * @property User $deletedBy
@@ -153,6 +154,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function userBalanceHistory(): HasMany
     {
       return $this->userBalance->hasMany(UserBalanceHistory::class, 'user_balance_id');
+    }
+
+    public function paymentDetails(): HasMany
+    {
+        return $this->hasMany(PaymentMethod::class, 'user_id');
     }
 
     public function createdBy(): BelongsTo

@@ -10,12 +10,14 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class SaveFeedbackRequest
+ * Class SavePaymentMethodRequest
  * @package App\Http\Requests
- * @property int feedback_type_id
- * @property string comment
+ * @property int card_number
+ * @property string card_holder
+ * @property string expiration_date
+ * @property int cvv
  */
-class SaveFeedbackRequest extends FormRequest
+class SavePaymentMethodRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,19 +35,10 @@ class SaveFeedbackRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'feedback_type_id' => 'required|exists:feedback_types,id',
-            'comment' => 'required|string|max:200',
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            'feedback_type_id.required' => 'Feedback type is required',
-            'feedback_type_id.exists' => 'Feedback type does not exist',
-            'comment.required' => 'Comment is required',
-            'comment.string' => 'Comment must be a string',
-            'comment.max' => 'Comment must not exceed 200 characters',
+            'card_number' => 'required|integer|digits:16',
+            'card_holder' => 'required|string',
+            'expiration_date' => 'required|date_format:m/y',
+            'cvv' => 'required|integer|digits:3',
         ];
     }
 

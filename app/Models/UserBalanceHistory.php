@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property mixed amount
  * @property mixed currency
  * @property mixed bank_account_id
+ * @property mixed payment_method_id
  * @property mixed transaction_type_id
  * @property mixed created_at
  * @property mixed updated_at
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property UserBalance userBalance
  * @property BankAccount $bankAccount
  * @property TransactionType transactionType
+ * @property PaymentMethod $paymentMethod
  */
 class UserBalanceHistory extends Model
 {
@@ -32,12 +34,19 @@ class UserBalanceHistory extends Model
         'amount',
         'currency',
         'bank_account_id',
+        'payment_method_id',
         'transaction_type_id'
     ];
 
     public function userBalance(): BelongsTo
     {
         return $this->belongsTo(UserBalance::class, 'user_balance_id');
+    }
+
+    public function paymentMethod(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMethod::class, 'payment_method_id')
+            ->withTrashed();
     }
 
     public function bankAccount(): BelongsTo
