@@ -37,14 +37,16 @@ class DepositRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'payment_method_id' => 'required_without_all:card_number|integer|exists:payment_methods,id',
             'amount' => 'required|integer|min:1',
-            'card_number' => 'required|integer|digits:16',
-            'card_holder' => 'required|string',
+            'card_number' => 'nullable|integer|digits:16|required_without:payment_method_id',
+            'card_holder' => 'nullable|string|required_without:payment_method_id',
             'expiration_date' => [
-                'required',
+                'nullable',
+                'required_without:payment_method_id',
                 new ExpirationDate(),
             ],
-            'cvv' => 'required|integer|digits:3',
+            'cvv' => 'nullable|integer|digits:3|required_without:payment_method_id',
         ];
     }
 

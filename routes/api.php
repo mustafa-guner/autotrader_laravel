@@ -65,7 +65,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('notifications', MyNotificationController::class)->name('notifications.index');
 
         Route::resource('bank-accounts', MyBankAccountController::class)->only(['index', 'store', 'destroy']);
-        Route::resource('payment-details', PaymentMethodController::class)->only(['index', 'store']);
+        Route::resource('payment-methods', PaymentMethodController::class)->only(['index', 'store','destroy']);
 
         Route::put('deposit',[DepositController::class,'update']);
         Route::put('withdraw',[WithdrawController::class,'update']);

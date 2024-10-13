@@ -10,7 +10,6 @@ use App\Models\User;
 use App\Services\ResponseService;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -19,8 +18,8 @@ class PaymentMethodController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        $payment_details = auth()->user()->paymentDetails()->get();
-        return PaymentMethodResource::collection($payment_details);
+        $payment_methods = auth()->user()->paymentMethods()->get();
+        return PaymentMethodResource::collection($payment_methods);
 
     }
 
@@ -36,8 +35,8 @@ class PaymentMethodController extends Controller
             DB::beginTransaction();
             $payment_detail = PaymentMethod::create($fields);
             DB::commit();
-            Log::info('User with id ' . $user->id . ' has added a payment detail with id ' . $payment_detail->id);
-            return ResponseService::success(null, trans('payment_detail.added'));
+            Log::info('User with id ' . $user->id . ' has added a payment method with id ' . $payment_detail->id);
+            return ResponseService::success(null, trans('payment_method.added'));
         } catch (Exception $e) {
             DB::rollBack();
             Log::error('User balance is NOT DEPOSITED. Error: ' . $e->getMessage());
@@ -46,18 +45,18 @@ class PaymentMethodController extends Controller
     }
 
 
-    public function destroy(Request $request): JsonResponse
+    public function destroy($id): JsonResponse
     {
         try {
-            $payment_detail = PaymentMethod::where('id', $request->id)->first();
+            $payment_detail = PaymentMethod::where('id', $id)->first();
             if (!$payment_detail) {
-                throw new NotFoundException(trans('payment_detail.not_found'));
+                throw new NotFoundException(trans('payment_method.not_found'));
             }
             DB::beginTransaction();
             $payment_detail->delete();
             DB::commit();
-            Log::info('Payment detail with id ' . $payment_detail->id . ' has been deleted');
-            return ResponseService::success(null, trans('payment_detail.removed'));
+            Log::info('Payment method with id ' . $payment_detail->id . ' has been deleted');
+            return ResponseService::success(null, trans('payment_method.removed'));
         } catch (Exception $e) {
             DB::rollBack();
             Log::error('User balance is NOT DEPOSITED. Error: ' . $e->getMessage());

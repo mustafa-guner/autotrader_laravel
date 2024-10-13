@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ExpirationDate;
 use App\Services\ResponseService;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -35,9 +37,19 @@ class SavePaymentMethodRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'card_number' => 'required|integer|digits:16',
+            'card_number' => [
+                'required',
+                'integer',
+                'digits:16',
+                Rule::unique('payment_methods')->where(function ($query) {
+                    return $query->where('user_id', auth()->id());
+                }),
+            ],
             'card_holder' => 'required|string',
-            'expiration_date' => 'required|date_format:m/y',
+            'expiration_date' => [
+                'required',
+                new ExpirationDate(),
+            ],
             'cvv' => 'required|integer|digits:3',
         ];
     }
@@ -48,6 +60,12 @@ class SavePaymentMethodRequest extends FormRequest
         throw new HttpResponseException(
             ResponseService::fail($error, Response::HTTP_UNPROCESSABLE_ENTITY)
         );
+    }
 
+    public function messages(): array
+    {
+        return [
+            'card_number.unique' => 'You have already added this card before.',
+        ];
     }
 }
