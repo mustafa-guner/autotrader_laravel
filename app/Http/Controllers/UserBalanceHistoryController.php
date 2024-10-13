@@ -11,7 +11,7 @@ class UserBalanceHistoryController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        $balanceHistory = auth()->user()->userBalanceHistory()->take(10)->get();
+        $balanceHistory = auth()->user()->userBalanceHistory()->take(10)->orderBy('created_at','desc')->get();
         return UserBalanceHistoryResource::collection($balanceHistory);
     }
 }
