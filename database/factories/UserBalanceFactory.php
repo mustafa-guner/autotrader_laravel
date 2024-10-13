@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use App\Models\UserBalance;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,7 +19,7 @@ class UserBalanceFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => UserFactory::make(),
+            'user_id' => User::factory(),
             'balance' => $this->faker->randomFloat(2, 0, 1000),
             'currency' => $this->faker->currencyCode,
         ];

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Notifications\VerifyEmail;
+
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -42,6 +42,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property NotificationUser[] $notifications
  * @property BankAccount[] $bankAccounts
  * @property UserPhone[] $phones
+ * @property UserBalanceHistory[] $userBalanceHistory
  * @property User $createdBy
  * @property User $updatedBy
  * @property User $deletedBy
@@ -147,6 +148,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function userBalance(): HasOne
     {
         return $this->hasOne(UserBalance::class, 'user_id');
+    }
+
+    public function userBalanceHistory(): HasMany
+    {
+      return $this->userBalance->hasMany(UserBalanceHistory::class, 'user_balance_id');
     }
 
     public function createdBy(): BelongsTo

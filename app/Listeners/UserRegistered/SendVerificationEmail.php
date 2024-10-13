@@ -4,6 +4,7 @@ namespace App\Listeners\UserRegistered;
 
 use App\Events\UserRegistered;
 use App\Notifications\VerifyEmail;
+use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 
@@ -22,6 +23,10 @@ class SendVerificationEmail
      */
     public function handle(UserRegistered $event): void
     {
-        $event->user->notify(new VerifyEmail($event->user));
+        try {
+            $event->user->notify(new VerifyEmail($event->user));
+        } catch (Exception $e) {
+            Log::error('Error while sending verification email: ' . $e->getMessage());
+        }
     }
 }

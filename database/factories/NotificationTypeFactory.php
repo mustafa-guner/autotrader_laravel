@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Notification;
+use App\Models\NotificationType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Notification>
+ * @extends Factory<NotificationType>
  */
-class NotificationFactory extends Factory
+class NotificationTypeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,9 +19,6 @@ class NotificationFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(),
-            'content' => $this->faker->paragraph(),
-            'type' => $this->faker->randomElement(['info', 'warning', 'error']),
-            'thumbnail' => $this->faker->imageUrl(),
         ];
     }
 }

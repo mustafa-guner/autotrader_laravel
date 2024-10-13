@@ -2,18 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\UserBalance;
+use App\Models\UserBalanceHistory;
 use Illuminate\Database\Seeder;
 
-class UserBalanceSeeder extends Seeder
+class UserBalanceHistorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        UserBalance::factory()
-            ->count(2)
+        UserBalanceHistory::factory()
+            ->count(10)
             ->create();
     }
 }

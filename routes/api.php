@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\DepositController;
 use App\Http\Controllers\Feedback\FeedbackController;
 use App\Http\Controllers\Feedback\FeedbackTypeController;
 use App\Http\Controllers\GenderController;
@@ -19,8 +20,10 @@ use App\Http\Controllers\Me\MyTransactionController;
 use App\Http\Controllers\PhoneTypeController;
 use App\Http\Controllers\TransactionStatusController;
 use App\Http\Controllers\TransactionTypeController;
+use App\Http\Controllers\UserBalanceHistoryController;
 use App\Http\Controllers\UserTransactionController;
 use App\Http\Controllers\VerifyPhoneController;
+use App\Http\Controllers\WithdrawController;
 use App\Services\ResponseService;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,10 +54,16 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/', [AuthController::class, 'index'])->name('me.index');
         Route::resource('phones', MyPhoneController::class)->only(['index', 'store']);
         Route::post('phone/verify', VerifyPhoneController::class)->name('phone.verify');
+
+        Route::get('balance-histories', [UserBalanceHistoryController::class, 'index'])->name('balance-histories.index');
+
         Route::resource('transactions', MyTransactionController::class)->only(['index', 'show']);
         Route::post('transactions/create', CreateTransactionController::class)->name('transactions.create');
         Route::get('notifications', MyNotificationController::class)->name('notifications.index');
         Route::resource('bank-accounts', MyBankAccountController::class)->only(['index', 'store', 'destroy']);
+
+        Route::put('deposit',[DepositController::class,'update']);
+        Route::put('withdraw',[WithdrawController::class,'update']);
     });
 
     Route::get('feedback-types', [FeedbackTypeController::class, 'index'])->name('feedback-types.index');

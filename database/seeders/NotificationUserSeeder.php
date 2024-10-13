@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Notification;
+use App\Models\NotificationType;
 use App\Models\NotificationUser;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -17,17 +17,17 @@ class NotificationUserSeeder extends Seeder
         $notification_users = [
             [
                 'user_id' => User::factory()->create()->id,
-                'notification_id' => Notification::factory()->create()->id,
+                'message' => 'This is a success notification',
                 'is_read' => false,
             ],
             [
                 'user_id' => User::factory()->create()->id,
-                'notification_id' => Notification::factory()->create()->id,
+                'message' => 'This is an error notification',
                 'is_read' => false,
             ],
             [
                 'user_id' => User::factory()->create()->id,
-                'notification_id' => Notification::factory()->create()->id,
+                'message' => 'This is a warning notification',
                 'is_read' => false,
             ]
         ];

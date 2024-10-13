@@ -25,6 +25,10 @@ class UserBalance extends Model
         'balance',
         'currency'
     ];
+    protected $casts = [
+        'balance' => 'decimal:2',
+    ];
+
 
     public function user(): BelongsTo
     {

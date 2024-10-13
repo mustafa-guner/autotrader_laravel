@@ -8,13 +8,15 @@ use App\Http\Resources\TransactionResource;
 use App\Services\ResponseService;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Log;
 
 class MyTransactionController extends Controller
 {
-    public function index()
+    public function index(): AnonymousResourceCollection
     {
-        return auth()->user()->transactions();
+        $transactions =  auth()->user()->transactions();
+        return TransactionResource::collection($transactions->paginate(10));
     }
 
     /**

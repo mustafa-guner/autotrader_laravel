@@ -2,14 +2,14 @@
 
 namespace App\Http\Resources;
 
-use App\Models\NotificationUser;
+use App\Models\UserBalanceHistory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin NotificationUser
+ * @mixin UserBalanceHistory
  */
-class NotificationResource extends JsonResource
+class UserBalanceHistoryResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,10 +20,12 @@ class NotificationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'message' => $this->message,
-            'is_read' => $this->is_read,
+            'amount' => $this->amount,
+            'currency' => $this->currency,
+            'balance' => $this->userBalance,
+            'transaction_type' => $this->transactionType,
+            'bank_account' => $this->bankAccount,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
     }
 }

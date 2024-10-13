@@ -24,8 +24,8 @@ class RegisterController extends Controller
             $validated_fields['password'] = Hash::make($validated_fields['password']);
             $user = User::create($validated_fields);
             DB::commit();
-            event(new UserRegistered($user));
             Log::info('User with email ' . $user->email . ' has been registered successfully.');
+            event(new UserRegistered($user));
             return ResponseService::success(null, trans('auth.account_created_please_verify_your_email'), Response::HTTP_CREATED);
         } catch (Exception $e) {
             DB::rollBack();

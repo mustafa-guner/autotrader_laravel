@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->unsignedBigInteger('transaction_type_id');
             $table->unsignedBigInteger('transaction_status_id');
             $table->unsignedBigInteger('user_id');

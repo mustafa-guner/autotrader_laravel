@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Me;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SaveTransactionRequest;
-use App\Models\Notification;
+use App\Models\NotificationType;
 use App\Models\Transaction;
 use App\Services\ResponseService;
 use Exception;
@@ -22,7 +22,7 @@ class CreateTransactionController extends Controller
             DB::beginTransaction();
             $transaction = Transaction::create($validated_fields);
             DB::commit();
-            Notification::create([
+            NotificationType::create([
                 'title' => 'Transaction Successful',
                 'content' => 'Your transaction with id ' . $transaction->id . ' has been saved successfully.',
                 'type' => 'success'

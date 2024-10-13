@@ -20,8 +20,10 @@ class DatabaseSeeder extends Seeder
             BankSeeder::class,
             UserSeeder::class,
             BankAccountSeeder::class,
+            UserBalanceSeeder::class,
+            UserBalanceHistorySeeder::class,
             AnnouncementSeeder::class,
-            NotificationSeeder::class,
+            NotificationTypeSeeder::class,
             NotificationUserSeeder::class,
             FeedbackTypeSeeder::class,
         ]);

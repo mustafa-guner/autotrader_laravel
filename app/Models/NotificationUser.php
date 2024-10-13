@@ -9,13 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @property mixed $id
  * @property mixed $user_id
- * @property mixed $notification_id
+ * @property mixed $message
  * @property mixed $is_read
  * @property mixed $created_at
  * @property mixed $updated_at
  * @property mixed $deleted_at
- *
- * @property Notification $notification
+
  * @property User $user
  */
 class NotificationUser extends Model
@@ -26,14 +25,9 @@ class NotificationUser extends Model
 
     protected $fillable = [
         'user_id',
-        'notification_id',
-        'is_read'
+        'message',
+        'is_read',
     ];
-
-    public function notification(): BelongsTo
-    {
-        return $this->belongsTo(Notification::class);
-    }
 
     public function user(): BelongsTo
     {
