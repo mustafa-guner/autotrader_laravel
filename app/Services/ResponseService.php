@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ResponseService
 {
 
-    static public function success(array|null $data, string|null $message, int $status = Response::HTTP_OK): JsonResponse
+    static public function success($data, string|null $message, int $status = Response::HTTP_OK): JsonResponse
     {
         $message = $message ?? trans('commons.success');
         return response()->json([

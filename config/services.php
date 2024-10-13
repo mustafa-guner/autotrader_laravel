@@ -37,6 +37,14 @@ return [
 
     'countries_api_v3' => [
         'url' => env('COUNTRIES_API_V3_URL'),
-    ]
+    ],
+
+    'polygon' => [
+        'api_key' => env('POLYGON_API_KEY'),
+        'tickers' => [
+            'list_url_v3' => env('POLYGON_TICKERS_LIST_URL_V3','https://api.polygon.io/v3/reference/tickers'),
+            'detail_url_v3' => env('POLYGON_TICKERS_DETAIL_URL_V3','https://api.polygon.io/v3/reference/tickers/'),
+        ],
+    ],
 
 ];

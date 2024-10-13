@@ -6,7 +6,6 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BankController;
-use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\Feedback\FeedbackController;
@@ -20,6 +19,7 @@ use App\Http\Controllers\Me\MyTransactionController;
 use App\Http\Controllers\PaymentMethodSetDefaultController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PhoneTypeController;
+use App\Http\Controllers\TickerController;
 use App\Http\Controllers\TransactionStatusController;
 use App\Http\Controllers\TransactionTypeController;
 use App\Http\Controllers\UpdateProfileController;
@@ -30,6 +30,8 @@ use App\Http\Controllers\WithdrawController;
 use App\Services\ResponseService;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
+
+Route::get('/tickers', [TickerController::class, 'index'])->name('tickers.index');
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('register', RegisterController::class)->name('auth.register');
@@ -50,14 +52,13 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('transaction-types', TransactionTypeController::class)->name('transaction-types.index');
 
     Route::get('banks', [BankController::class, 'index'])->name('banks.index');
-//    Route::get('companies', [CompanyController::class, 'index'])->name('companies.index');
     Route::get('announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 
     Route::group(['prefix' => 'me'], function () {
         Route::get('/', [AuthController::class, 'index'])->name('me.index');
         Route::get('balance-histories', [UserBalanceHistoryController::class, 'index'])->name('balance-histories.index');
         Route::get('notifications', MyNotificationController::class)->name('notifications.index');
-        //Route::get('shares');
+
 
         Route::post('phone/verify', VerifyPhoneController::class)->name('phone.verify');
         Route::post('transactions/create', CreateTransactionController::class)->name('transactions.create');
@@ -69,6 +70,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
         Route::put('/update',[UpdateProfileController::class,'update']);
         Route::put('payment-methods/{id}/default', [PaymentMethodSetDefaultController::class,'update']);
+        //Balance transactions
         Route::put('deposit',[DepositController::class,'update']);
         Route::put('withdraw',[WithdrawController::class,'update']);
     });
@@ -78,7 +80,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Admin module is not in use currently
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
         Route::resource('feedbacks', FeedbackController::class)->only(['index']);
-        Route::resource('banks', BankController::class)->only(['store', 'update', 'destroy']);
         Route::resource('announcements', AnnouncementController::class)->only(['store', 'update', 'destroy']);
         Route::resource('user/{id}/transactions', UserTransactionController::class)->only(['index', 'store']);
     });

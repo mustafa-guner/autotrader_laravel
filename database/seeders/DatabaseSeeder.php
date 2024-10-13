@@ -26,6 +26,9 @@ class DatabaseSeeder extends Seeder
             NotificationTypeSeeder::class,
             NotificationUserSeeder::class,
             FeedbackTypeSeeder::class,
+
+            //Polygon.io API
+            TickerSeeder::class,
         ]);
     }
 }

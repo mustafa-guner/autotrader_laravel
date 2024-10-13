@@ -23,11 +23,9 @@ class CountrySeeder extends Seeder
                     ['iso_code' => $country['cca2']],
                     [
                         'name' => $country['name']['common'],
-                        'iso_code' => $country['cca2'],
                         'flag' => $country['flags']['png'],
                         'calling_code' => $country['idd']['root'],
-                        'created_at' => now(),
-                        'updated_at' => now()
+                        'updated_at' => now(),
                     ]
                 );
             }
