@@ -31,7 +31,6 @@ use App\Services\ResponseService;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 
-Route::get('/tickers', [TickerController::class, 'index'])->name('tickers.index');
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('register', RegisterController::class)->name('auth.register');
@@ -51,6 +50,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('transaction-statuses', TransactionStatusController::class)->name('transaction-statuses.index');
     Route::get('transaction-types', TransactionTypeController::class)->name('transaction-types.index');
 
+    Route::get('/tickers', [TickerController::class, 'index'])->name('tickers.index');
+
     Route::get('banks', [BankController::class, 'index'])->name('banks.index');
     Route::get('announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 
@@ -58,7 +59,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/', [AuthController::class, 'index'])->name('me.index');
         Route::get('balance-histories', [UserBalanceHistoryController::class, 'index'])->name('balance-histories.index');
         Route::get('notifications', MyNotificationController::class)->name('notifications.index');
-
 
         Route::post('phone/verify', VerifyPhoneController::class)->name('phone.verify');
         Route::post('transactions/create', CreateTransactionController::class)->name('transactions.create');
