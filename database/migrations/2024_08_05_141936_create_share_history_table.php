@@ -14,13 +14,11 @@ return new class extends Migration
         Schema::create('share_history', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('account_id');
-            $table->unsignedBigInteger('share_id');
             $table->string('amount');
             $table->timestamps();
 
             //Relations
             $table->foreign('account_id')->references('id')->on('bank_accounts');
-            $table->foreign('share_id')->references('id')->on('shares');
         });
     }
 
