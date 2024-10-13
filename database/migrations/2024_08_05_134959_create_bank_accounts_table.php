@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('bank_id');
             $table->string('account_number')->unique();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

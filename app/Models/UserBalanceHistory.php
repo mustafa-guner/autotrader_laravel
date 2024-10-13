@@ -42,7 +42,9 @@ class UserBalanceHistory extends Model
 
     public function bankAccount(): BelongsTo
     {
-        return $this->belongsTo(BankAccount::class, 'bank_account_id')->with('bank');
+        return $this->belongsTo(BankAccount::class, 'bank_account_id')
+            ->withTrashed()
+            ->with('bank');
     }
 
     public function transactionType(): BelongsTo

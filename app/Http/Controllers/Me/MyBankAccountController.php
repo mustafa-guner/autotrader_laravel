@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SaveBankAccountRequest;
 use App\Http\Resources\BankAccountResource;
 use App\Models\BankAccount;
+use App\Models\User;
 use App\Services\ResponseService;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -44,7 +45,11 @@ class MyBankAccountController extends Controller
     public function destroy($id): JsonResponse
     {
         try {
-            $bank_account = BankAccount::find($id);
+            /**
+             * @var User $user
+             */
+            $user = auth()->user();
+            $bank_account = BankAccount::where('id', $id)->where('user_id', $user->id )->first();
             if (!$bank_account) {
                 throw new NotFoundException('Bank account not found');
             }

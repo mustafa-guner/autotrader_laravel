@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
@@ -15,10 +17,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $updated_at
  *
  * @property Bank $bank
+ * @property User $user
+ * @property UserBalanceHistory $balanceHistory
  */
 class BankAccount extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
 
     protected $fillable = [
         'bank_id',
@@ -26,6 +30,10 @@ class BankAccount extends Model
         'account_number',
     ];
 
+    public function balanceHistory():BelongsToMany
+    {
+        return $this->belongsToMany(UserBalanceHistory::class, 'bank_account_id');
+    }
     public function bank(): BelongsTo
     {
         return $this->belongsTo(Bank::class, 'bank_id');
