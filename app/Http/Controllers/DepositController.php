@@ -41,15 +41,19 @@ class DepositController extends Controller
             $userBalanceHistory->currency = $user->userBalance->currency;
             $userBalanceHistory->transaction_type_id = TransactionTypeConstants::DEPOSIT;
 
-            if(isset($fields['payment_method_id'])) {
-                $payment_method = PaymentMethod::where('id', $fields['payment_method_id'])->first();
-                if(!$payment_method) {
+            if (isset($fields['payment_method_id'])) {
+                $payment_method = PaymentMethod::where('id', $fields['payment_method_id'])
+                    ->where('user_id', $user->id)
+                    ->first();
+                if (!$payment_method) {
                     throw new NotFoundException('Payment method not found');
                 }
                 $userBalanceHistory->payment_method_id = $payment_method->id;
-            } else{
+            } else {
                 $card_number = $fields['card_number'];
-                $payment_method = PaymentMethod::where('card_number', $card_number)->first();
+                $payment_method = PaymentMethod::where('card_number', $card_number)
+                    ->where('user_id', $user->id)
+                    ->first();
                 if (!$payment_method) {
                     $payment_method = PaymentMethod::create([
                         'user_id' => $user->id,
@@ -58,6 +62,7 @@ class DepositController extends Controller
                         'expiration_date' => $fields['expiration_date'],
                         'cvv' => $fields['cvv'],
                     ]);
+                    Log::info('User with ID ' . $user->id . ' has added new payment method with card number ' . $card_number);
                     $userBalanceHistory->payment_method_id = $payment_method->id;
                 }
             }
