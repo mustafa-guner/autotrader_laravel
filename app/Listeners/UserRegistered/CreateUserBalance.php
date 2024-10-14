@@ -8,10 +8,8 @@ use App\Models\NotificationUser;
 use App\Models\UserBalance;
 use App\Notifications\BalanceNotification;
 use Exception;
-use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
 use App\Events\NotificationCreated;
 
 class CreateUserBalance

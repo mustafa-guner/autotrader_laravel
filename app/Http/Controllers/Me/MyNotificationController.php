@@ -10,7 +10,7 @@ class MyNotificationController extends Controller
 {
     public function __invoke(): AnonymousResourceCollection
     {
-        $notifications = auth()->user()->notifications()->where('is_read', 0)->take(5)->get();
+        $notifications = auth()->user()->notifications()->where('is_read', 0)->get();
         return NotificationResource::collection($notifications);
     }
 }

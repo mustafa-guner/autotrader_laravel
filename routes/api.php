@@ -28,7 +28,9 @@ use App\Http\Controllers\UserTransactionController;
 use App\Http\Controllers\VerifyPhoneController;
 use App\Http\Controllers\WithdrawController;
 use App\Services\ResponseService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Pusher\Pusher;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -76,6 +78,39 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
     Route::get('feedback-types', [FeedbackTypeController::class, 'index'])->name('feedback-types.index');
     Route::post('feedbacks/create', [FeedbackController::class, 'store'])->name('feedbacks.store');
+
+    //Broadcast
+    Route::post('/pusher/auth', function (Request $request) {
+        $channelName = $request->input('channel_name');
+        $socketId = $request->input('socket_id'); // Extract socket ID from the request
+
+        // Check if the channel name follows the expected pattern
+        if (preg_match('/^private-notifications\.(\d+)$/', $channelName, $matches)) {
+            $userId = $matches[1]; // Extract user ID from the channel name
+        } else {
+            return response()->json(['error' => 'Invalid channel name'], 400);
+        }
+
+        // Authenticate the user
+//        if (!auth()->check() || auth()->id() != $userId) {
+//            return response()->json(['error' => 'Unauthorized'], 401);
+//        }
+
+        // Initialize Pusher
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            [
+                'cluster' => env('PUSHER_APP_CLUSTER'),
+                'useTLS' => true,
+            ]
+        );
+        // Authorize the private channel with the correct socket ID
+        return $pusher->authorizeChannel($channelName, $socketId);
+    })->withoutMiddleware('auth:sanctum');
+
+
 
     //Admin module is not in use currently
     Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {

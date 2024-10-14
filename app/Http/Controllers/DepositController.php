@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Constants\TransactionStatusConstants;
 use App\Constants\TransactionTypeConstants;
+use App\Events\NotificationCreated;
 use App\Exceptions\NotFoundException;
 use App\Http\Requests\DepositRequest;
+use App\Models\NotificationUser;
 use App\Models\PaymentMethod;
 use App\Models\User;
 use App\Models\UserBalanceHistory;
 use App\Services\ResponseService;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -67,7 +67,19 @@ class DepositController extends Controller
                 }
             }
             $userBalanceHistory->save();
+            //create notification and fire the event
+            $notification = NotificationUser::create([
+                'user_id' => $user->id,
+                'message' => trans('balance.deposit_success'),
+                'is_read' => false
+            ]);
+
+            $data = [
+                'balance' => $user->userBalance->balance,
+            ];
+
             DB::commit();
+            broadcast(new NotificationCreated($notification,$data))->toOthers();
             Log::info('User has deposited ' . $fields['amount'] . ' to his balance');
             return ResponseService::success(null, trans('balance.deposit_success'));
         } catch (Exception $e) {

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Constants\TransactionTypeConstants;
+use App\Events\NotificationCreated;
 use App\Http\Requests\WithdrawRequest;
+use App\Models\NotificationUser;
 use App\Models\User;
 use App\Models\UserBalanceHistory;
 use App\Services\ResponseService;
@@ -38,7 +40,20 @@ class WithdrawController extends Controller
                 'bank_account_id' => $fields['bank_account_id']
             ]);
 
+
+            $notification = NotificationUser::create([
+                'user_id' => $user->id,
+                'message' => trans('balance.withdraw_success'),
+                'is_read' => false
+            ]);
+
+            $data = [
+                'balance' => $user->userBalance->balance,
+            ];
+
             DB::commit();
+
+            broadcast(new NotificationCreated($notification,$data))->toOthers();
             Log::info('User has withdrawn ' . $fields['amount'] . ' from his balance');
             return ResponseService::success(null, trans('balance.withdraw_success'));
         } catch (Exception $e) {

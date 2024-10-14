@@ -2,8 +2,6 @@
 
 namespace App\Notifications;
 
-use App\Constants\NotificationTypeConstants;
-use App\Models\NotificationUser;
 use App\Models\UserBalance;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
