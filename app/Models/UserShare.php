@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Class UserShare
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string created_at
  *
  * @property User user
+ * @property Ticker ticker
  */
 class UserShare extends Model
 {
@@ -41,5 +43,10 @@ class UserShare extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function ticker(): BelongsTo
+    {
+        return $this->belongsTo(Ticker::class, 'name', 'name');
     }
 }

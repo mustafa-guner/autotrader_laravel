@@ -24,7 +24,7 @@ class ShareController extends Controller
          * @var User $user
          */
         $user = auth()->user();
-        $shares = $user->shares()->with('share')->get();
+        $shares = $user->shares()->with('ticker')->get();
         return ShareResource::collection($shares);
     }
 
@@ -54,7 +54,8 @@ class ShareController extends Controller
                 'symbol' => $fields['symbol'],
                 'exchange' => $fields['exchange'],
                 'price' => $fields['price'],
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                'bought_by' => $user->id
             ]);
 
             $user->userBalance->update([
@@ -115,7 +116,8 @@ class ShareController extends Controller
                     $quantity = min($fields['amount'], $share->quantity);
                     $fields['amount'] -= $quantity;
                     $share->update([
-                        'quantity' => $share->quantity - $quantity
+                        'quantity' => $share->quantity - $quantity,
+                        'sold_by' => $user->id
                     ]);
                     $totalValue += ($quantity * $fields['price']);
                 }
