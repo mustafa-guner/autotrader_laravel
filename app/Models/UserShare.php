@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @package App\Models
  * @property int id
  * @property int user_id
- * @property int quantity
+ * @property int $quantity
  * @property int price
  * @property mixed symbol
  * @property int bought_by
@@ -30,6 +30,7 @@ class UserShare extends Model
         'user_id',
         'quantity',
         'price',
+        'name',
         'symbol',
         'bought_by',
         'sold_by',

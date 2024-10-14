@@ -7,14 +7,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @property string name
- * @property int quantity
- * @property string exchange
- * @property string action_type
  * @property int price
- * @property string symbol
- *
  */
-class ShareRequest extends FormRequest
+class SellShareRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,11 +28,8 @@ class ShareRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'quantity' => 'required|integer',
-            'exchange' => 'required|string',
-            'action_type' => 'required|string',
             'price' => 'required|integer',
-            'symbol' => 'required|string' //company symbol
+            'amount' => 'required|integer',
         ];
     }
 }

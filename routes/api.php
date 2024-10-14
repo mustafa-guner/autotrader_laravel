@@ -19,6 +19,7 @@ use App\Http\Controllers\Me\MyTransactionController;
 use App\Http\Controllers\PaymentMethodSetDefaultController;
 use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PhoneTypeController;
+use App\Http\Controllers\ShareController;
 use App\Http\Controllers\TickerController;
 use App\Http\Controllers\TransactionStatusController;
 use App\Http\Controllers\TransactionTypeController;
@@ -57,6 +58,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('banks', [BankController::class, 'index'])->name('banks.index');
     Route::get('announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
 
+    Route::post('shares/buy', [ShareController::class, 'buy'])->name('shares.buy');
+    Route::post('shares/sell', [ShareController::class, 'sell'])->name('shares.sell');
+
     Route::group(['prefix' => 'me'], function () {
         Route::get('/', [AuthController::class, 'index'])->name('me.index');
         Route::get('balance-histories', [UserBalanceHistoryController::class, 'index'])->name('balance-histories.index');
@@ -70,6 +74,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::resource('bank-accounts', MyBankAccountController::class)->only(['index', 'store', 'destroy']);
         Route::resource('payment-methods', PaymentMethodController::class)->only(['index', 'store','destroy']);
 
+        Route::get('shares', [ShareController::class, 'index'])->name('shares.index');
+
         Route::put('/update',[UpdateProfileController::class,'update']);
         Route::put('payment-methods/{id}/default', [PaymentMethodSetDefaultController::class,'update']);
         //Balance transactions
@@ -82,19 +88,13 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Broadcast
     Route::post('/pusher/auth', function (Request $request) {
         $channelName = $request->input('channel_name');
-        $socketId = $request->input('socket_id'); // Extract socket ID from the request
+        $socketId = $request->input('socket_id');
 
-        // Check if the channel name follows the expected pattern
         if (preg_match('/^private-notifications\.(\d+)$/', $channelName, $matches)) {
-            $userId = $matches[1]; // Extract user ID from the channel name
+            $userId = $matches[1];
         } else {
             return response()->json(['error' => 'Invalid channel name'], 400);
         }
-
-        // Authenticate the user
-//        if (!auth()->check() || auth()->id() != $userId) {
-//            return response()->json(['error' => 'Unauthorized'], 401);
-//        }
 
         // Initialize Pusher
         $pusher = new Pusher(
