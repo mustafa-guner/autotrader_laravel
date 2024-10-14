@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->decimal('balance', 10, 2);
-            $table->string('currency');
+            $table->string('currency')->default('USD');
             $table->timestamps();
 
             //Relationships
